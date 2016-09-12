@@ -1,12 +1,5 @@
 #+TITLE: My Emacs Initialisation
 
-* Introduction
-  This page was generated from an [[https://www.gnu.org/software/emacs/manual/html_node/emacs/Org-Mode.html][Org Mode]] file of literate emacs lisp, used to
-initialise my Emacs sessions. I keep a normal [[file:~/.emacs][.emacs]] file in my home directory, for
-customised variables automatically added through Emacs' [[https://www.gnu.org/software/emacs/manual/html_node/emacs/Easy-Customization.html][customisation
-interface]]. Additionally, the file adds a simple [[https://www.gnu.org/software/emacs/manual/html_node/emacs/Hooks.html][hook]], to load /this/ file and perform
-the real initialisation.
-
 * General editor stuff
 #+BEGIN_SRC emacs-lisp
   (add-hook 'lisp-mode-hook 'paredit-mode)
