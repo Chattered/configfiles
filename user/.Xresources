@@ -1,0 +1,6 @@
+xterm*background: rgb:00/00/00
+xterm*eightBitInput: false
+xterm*foreground: rgb:00/ff/00
+xterm*faceName: DejaVu Sans Mono:pixelsize=12
+xterm*backarrowKey: false
+xterm*ttyModes: erase ^?

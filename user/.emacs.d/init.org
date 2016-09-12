@@ -1,0 +1,61 @@
+#+TITLE: My Emacs Initialisation
+
+* Introduction
+  This is a literate [[https://www.gnu.org/software/emacs/manual/html_node/emacs/Org-Mode.html][Org Mode]] file used to initialise my Emacs sessions. I keep a
+normal [[file:~/.emacs][.emacs]] file in my home directory, for customised variables automatically added
+through Emacs' [[https://www.gnu.org/software/emacs/manual/html_node/emacs/Easy-Customization.html][customisation interface]]. Additionally, the file adds a simple [[https://www.gnu.org/software/emacs/manual/html_node/emacs/Hooks.html][hook]], to
+load /this/ file and perform the real initialisation.
+
+#+BEGIN_SRC emacs-lisp :tangle no :noeval
+  (add-hook 'after-init-hook
+            (lambda ()
+              (org-babel-load-file
+               (expand-file-name "init.org"
+                                 user-emacs-directory))))
+
+#+END_SRC
+
+* Helper functions and macros
+  #+BEGIN_SRC emacs-lisp
+    (defun count-iterations (fcondition action)
+      "Call the CONDITION function and, if it returns non-nil, call
+    ACTION with no arguments. Repeat until ACTION returns nil. Return
+    the number of times ACTION is called."
+      (let ((x 0))
+        (while (funcall fcondition)
+               (funcall action)
+               (setq x (+ x 1)))
+        x))
+  #+END_SRC
+
+* General editor stuff
+#+BEGIN_SRC emacs-lisp
+  (global-set-key (kbd "C-c l") 'org-store-link)
+  (global-set-key (kbd "C-x E") 'eval-print-last-sexp)
+#+END_SRC
+
+The =org-mode-hook= is customizable, but saving its value doesn't appear to have any
+effect. Check {{{varlink(org-babel-load-languages,org.el)}}}, line 220, where
+=org-babel-load-languages= is initialised by =org-babel-do-load-languages=, which
+will load {{{varlink(org-confirm-babel-evaluate,ob-core.el)}}}. This file adds
+several hooks to =org-mode-hook= , /before/ =org-mode-hook= has been declared by
+=defcustom=. Thus, it is not initialised by any saved customisations.
+
+So, instead, we add our hooks manually.
+
+#+BEGIN_SRC emacs-lisp
+  (add-hook 'org-mode-hook 'auto-fill-mode)
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+  (defmacro if-let (binding &rest body)
+    (destructuring-bind (x rhs) binding
+      `(let ((,x ,rhs))
+         (when ,x ,@ body))))
+#+END_SRC
+
+* Setting up modes
+  For hacking on nixpkgs:
+  #+BEGIN_SRC emacs-lisp
+    (load-library "nix-mode")
+  #+END_SRC
