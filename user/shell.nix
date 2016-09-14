@@ -4,7 +4,7 @@
    emacs = 
      let myemacs =
        with pkgs.emacsPackages; with pkgs.emacsPackagesNg; with pkgs.emacsMelpa; pkgs.emacsWithPackages
-       [ cl-lib helm-projectile magit org oauth2 paredit twittering-mode ];
+       [ cl-lib helm-projectile magit org paredit twittering-mode ];
      in pkgs.stdenv.mkDerivation {
        name = "emacs";
        buildInputs = [ myemacs pkgs.mu pkgs.offlineimap ];
@@ -18,7 +18,7 @@
 	        (expand-file-name \"emacs-init.org\" (getenv \"HOME\")))\
              (switch-to-buffer \"*scratch*\")\
  	     (require 'helm-config)
-             (paredit-mode))"
+       (paredit-mode))"
          fi
        '';
      };
