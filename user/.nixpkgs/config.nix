@@ -27,6 +27,6 @@ in rec {
       mkOcamlPackages = ocaml: self:
         pkgs.mkOcamlPackages ocaml self
 	// pkgs.lib.mapAttrs (n: v: pkgs.newScope self v {}) userPackages.ocamlPackages;
-      emacs24 = pkgs.emacs.override { withGTK2 = false; };
+      emacs24 = pkgs.emacs24.override { withGTK2 = false; };
     } // userpkgs;
 }
