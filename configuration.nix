@@ -41,6 +41,15 @@
     withGTK2 = false; withGTK3 = false;})
   git gnupg haskellPackages.xmobar lsof offlineimap pinentry xlockmore ];
 
+  krb5 = {
+    enable = true;
+    defaultRealm = "INF.ED.AC.UK";
+    kdc = "kdc.inf.ed.ac.uk";
+  };
+
+  powerManagement.enable = true;
+  powerManagement.cpuFreqGovernor = "ondemand";
+
   programs.ssh.startAgent = false;
   
   # List services that you want to enable:
@@ -50,7 +59,13 @@
   services.locate.localuser = "phil";
   
   # Enable CUPS to print documents.
-  # services.printing.enable = true;
+  services.printing = {
+    enable = true;
+    webInterface = false;
+    clientConf = ''
+      ServerName infcups.inf.ed.ac.uk
+    '';
+  };
 
   services.nfs.server = {
     enable = true;
@@ -73,25 +88,14 @@
 
   services.xserver.displayManager.auto.enable = true;
   services.xserver.displayManager.auto.user = "phil";  
-  
+
   services.xserver.windowManager.xmonad.enable = true;
   services.xserver.windowManager.xmonad.enableContribAndExtras = true;
+  services.xserver.windowManager.xmonad.extraPackages = pkgs:
+    [ pkgs.PhilAlsa ];
   services.xserver.windowManager.default = "xmonad";
   services.xserver.desktopManager.default = "none";
   services.xserver.desktopManager.xterm.enable = false;
-
-  krb5 = {
-    enable = true;
-    defaultRealm = "INF.ED.AC.UK";
-    kdc = "kdc.inf.ed.ac.uk";
-  };
-
-  # services.openafsClient = {
-  #   enable = true;
-  #   cellName = "inf.ed.ac.uk";
-  #   cacheSize = "500000";
-  #   sparse = true;
-  # };
 
   services.rsnapshot = {
     enable = true;
@@ -219,10 +223,12 @@
   services.cron.enable = false;
   services.fcron.enable = true;
 
-  powerManagement.enable = true;
-  powerManagement.cpuFreqGovernor = "ondemand";
-
-#  security.pam.enableEcryptfs = true;
+  # services.openafsClient = {
+  #   enable = true;
+  #   cellName = "inf.ed.ac.uk";
+  #   cacheSize = "500000";
+  #   sparse = true;
+  # };
  
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.extraUsers.phil = {
@@ -237,22 +243,18 @@
     uid = 1001;
   };
 
-  nixpkgs.config.packageOverrides = super: {
-    openssh = super.openssh.override { withKerberos = true; };
-  };
-
   system.autoUpgrade.enable = true;
 
-  systemd.user.services.sshtunnel = {
-    description = "Forward SSH through Edinburgh Uni tunnel";
-    serviceConfig = {
-      ExecStart = "${pkgs.kerberos}/bin/kinit pscott7 -k -t /root/pscott7.keytab && -L 33014:localhost:33014 pscott7@ssh.inf.ed.ac.uk";
-      Restart = "no";
-    };
-    after = [ "network-interfaces.target" ];
-  };
+  # systemd.user.services.sshtunnel = {
+  #   description = "Forward SSH through Edinburgh Uni tunnel";
+  #   serviceConfig = {
+  #     ExecStart = "${pkgs.kerberos}/bin/kinit pscott7 -k -t /root/pscott7.keytab && -L 33014:localhost:33014 pscott7@ssh.inf.ed.ac.uk";
+  #     Restart = "no";
+  #   };
+  #   after = [ "network-interfaces.target" ];
+  # };
 
-  systemd.services.sshtunnel.enable = true;
+  # systemd.services.sshtunnel.enable = true;
 
   # systemd.user.services.offlineimap = {
   #   description = "Offline IMAP";
@@ -263,4 +265,33 @@
   # }
 
   # systemd.services.offlineimap.enable = true;
+
+  nixpkgs.config =
+    {
+      haskellPackageOverrides = self: super:
+      {
+        "PhilAlsa" = self.mkDerivation {
+          pname = "PhiledAlsa";
+          version = "0.1";
+          src = pkgs.fetchFromGitHub {
+            owner = "Chattered";
+            repo = "PhiledAlsa";
+            rev = "master";
+            sha256 = "05nki9xqwl9cpdwnv8waz4ccjky89ldmvgxyfx0wji6mqinibl7h";
+          };
+          isLibrary = true;
+          isExecutable = false;
+          buildDepends = (with super; [ mtl ]);
+          extraLibraries = [ pkgs.alsaLib ];
+          jailbreak = true;
+          description = "A simple interface to ALSA's API";
+          license = pkgs.stdenv.lib.licenses.mit;
+          hydraPlatforms = pkgs.stdenv.lib.platforms.none;
+        };
+      };
+      packageOverrides = super:
+      {
+        openssh = super.openssh.override { withKerberos = true; };
+      };
+  };
 }
