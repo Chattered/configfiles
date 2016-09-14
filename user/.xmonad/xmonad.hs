@@ -62,7 +62,7 @@ main = do
        , ((mod4Mask .|. shiftMask, xK_g),
           spawn "nix-shell -p google-chrome --run google-chrome-stable")    
        , ((mod4Mask .|. shiftMask, xK_m),
-          spawn "nix-shell -A emacsdaemon --run 'emacsclient -c'")
+          spawn "nix-shell -A emacs --run 'emacsclient -c'")
        , ((mod4Mask,               xK_u), liftIO . runAlsa $ upVolume)
        , ((mod4Mask,               xK_d), liftIO . runAlsa $ downVolume)
        , ((mod4Mask .|. shiftMask, xK_d), liftIO . runAlsa $ muteVolume)
