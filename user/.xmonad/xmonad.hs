@@ -58,7 +58,7 @@ main = do
         , terminal = "xterm"
         } `additionalKeys`
        [ ((mod4Mask .|. shiftMask, xK_f),
-          spawn "nix-shell -A firefox --run firefox")
+          spawn "nix-shell -p firefox --run firefox")
        , ((mod4Mask .|. shiftMask, xK_g),
           spawn "nix-shell -p google-chrome --run google-chrome-stable")    
        , ((mod4Mask .|. shiftMask, xK_m),
