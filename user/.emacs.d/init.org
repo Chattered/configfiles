@@ -34,6 +34,16 @@ load /this/ file and perform the real initialisation.
   (global-set-key (kbd "C-x E") 'eval-print-last-sexp)
 #+END_SRC
 
+On a widescreen monitor, I like to have three windows in each frame, split
+vertically. With =C-x= =C-o=, I jump right, and with =C-x= =C-p= I can now jump left:
+
+#+BEGIN_SRC emacs-lisp
+  (defun philed-previous-window ()
+    (interactive)
+    (other-window -1))
+  (global-set-key (kbd "C-x p") 'philed-previous-window)
+#+END_SRC
+
 The =org-mode-hook= is customizable, but saving its value doesn't appear to have any
 effect. Check {{{varlink(org-babel-load-languages,org.el)}}}, line 220, where
 =org-babel-load-languages= is initialised by =org-babel-do-load-languages=, which
