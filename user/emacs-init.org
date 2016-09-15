@@ -5,6 +5,7 @@
   (add-hook 'lisp-mode-hook 'paredit-mode)
   (add-hook 'emacs-lisp-mode-hook 'paredit-mode)
   (require 'helm)
+  (require 'helm-config)
 #+END_SRC
 
 Common Lisp compatibility for emacs lisp.
@@ -73,16 +74,48 @@ Common Lisp compatibility for emacs lisp.
    =~=.
 
 * Mu4e
-(require 'mu4e)
+#+BEGIN_SRC emacs-lisp
+  (require 'mu4e)
+  (require 'mu4e-contrib)
+  (require 'org-mu4e)
 
-(add-to-list 'mu4e-marks
-             '(org-store-link
-               :char "s"
-               :prompt "store link"
-               :action (lambda (docid msg target)
-                         (let ((msgid (or (plist-get msg :message-id) "<none>")))
-                           (push
-                            (list (concat "mu4e:msgid:" msgid)
-                                  (funcall org-mu4e-link-desc-func msg))
-                            org-stored-links))))
-             t)
+  (load-file "mu4e.el")
+
+  (mapc #'(lambda (var)
+                    (set (car var) (cadr var)))
+        (cdr (assoc "Personal" mu4e-account-alist)))
+
+  (defun mu4e-set-account ()
+    "Set the account for composing a message."
+    (let* ((account
+            (if mu4e-compose-parent-message
+                (let ((maildir (mu4e-message-field mu4e-compose-parent-message :maildir)))
+                  (string-match "/\\(.*?\\)/" maildir)
+                  (message (match-string 1 maildir))
+                  (match-string 1 maildir))
+              (completing-read (format "Compose with account: (%s) "
+                                       (mapconcat #'(lambda (var) (car var))
+                                                  mu4e-account-alist "/"))
+                               (mapcar #'(lambda (var) (car var)) mu4e-account-alist)
+                               nil t nil nil (caar mu4e-account-alist))))
+           (account-vars (cdr (assoc account mu4e-account-alist))))
+      (if account-vars
+          (mapc #'(lambda (var)
+                    (set (car var) (cadr var)))
+                account-vars)
+        (error "No email account found"))))
+
+  (add-hook 'mu4e-compose-pre-hook 'mu4e-set-account)
+
+  (add-to-list 'mu4e-marks
+               '(org-store-link
+                 :char "s"
+                 :prompt "store link"
+                 :action (lambda (docid msg target)
+                           (let ((msgid (or (plist-get msg :message-id) "<none>")))
+                             (push
+                              (list (concat "mu4e:msgid:" msgid)
+                                    (funcall org-mu4e-link-desc-func msg))
+                              org-stored-links))))
+               t)
+#+END_SRC

@@ -3,8 +3,8 @@
 {
    emacs = 
      let myemacs =
-       with pkgs.emacsPackages; with pkgs.emacsPackagesNg; with pkgs.emacsMelpa; pkgs.emacsWithPackages
-       [ cl-lib helm-projectile magit org paredit twittering-mode ];
+       with pkgs.emacsPackages; with pkgs.emacsPackagesNg; pkgs.emacsWithPackages
+       [ cl-lib helm-projectile magit org paredit twittering-mode w3m ];
      in pkgs.stdenv.mkDerivation {
        name = "emacs";
        buildInputs = [ myemacs pkgs.mu pkgs.offlineimap ];
