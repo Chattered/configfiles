@@ -51,13 +51,13 @@
   powerManagement.cpuFreqGovernor = "ondemand";
 
   programs.ssh.startAgent = false;
-  
+
   # List services that you want to enable:
 
   services.locate.enable = true;
   services.locate.interval = "hourly";
   services.locate.localuser = "phil";
-  
+
   # Enable CUPS to print documents.
   services.printing = {
     enable = true;
@@ -106,7 +106,7 @@
       retain		daily	7
       retain		weekly	4
       retain		monthly	6
-      backup		/home/phil/	.		
+      backup		/home/phil/	.
       backup		/etc/nixos/	nixos/
     '';
     cronIntervals = {
@@ -219,7 +219,7 @@
 # remote germany.privateinternetaccess.com 443
 # remote uk-london.privateinternetaccess.com 443
 # remote us-newyorkcity.privateinternetaccess.com 443
-  
+
   services.cron.enable = false;
   services.fcron.enable = true;
 
@@ -229,7 +229,7 @@
   #   cacheSize = "500000";
   #   sparse = true;
   # };
- 
+
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.extraUsers.phil = {
     home = "/home/phil";
