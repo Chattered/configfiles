@@ -39,7 +39,7 @@
   # $ nix-env -qaP | grep wget
   environment.systemPackages = with pkgs; [ wget (emacs.override {
     withGTK2 = false; withGTK3 = false;})
-  git gnupg haskellPackages.xmobar lsof offlineimap pinentry xlockmore ];
+  autossh git gnupg haskellPackages.xmobar lsof offlineimap pinentry xlockmore ];
 
   krb5 = {
     enable = true;
@@ -87,7 +87,7 @@
   # services.xserver.displayManager.lightdm.enable = true;
 
   services.xserver.displayManager.auto.enable = true;
-  services.xserver.displayManager.auto.user = "phil";  
+  services.xserver.displayManager.auto.user = "phil";
 
   services.xserver.windowManager.xmonad.enable = true;
   services.xserver.windowManager.xmonad.enableContribAndExtras = true;
@@ -245,26 +245,52 @@
 
   system.autoUpgrade.enable = true;
 
-  # systemd.user.services.sshtunnel = {
-  #   description = "Forward SSH through Edinburgh Uni tunnel";
-  #   serviceConfig = {
-  #     ExecStart = "${pkgs.kerberos}/bin/kinit pscott7 -k -t /root/pscott7.keytab && -L 33014:localhost:33014 pscott7@ssh.inf.ed.ac.uk";
-  #     Restart = "no";
-  #   };
-  #   after = [ "network-interfaces.target" ];
-  # };
+  systemd.user.services.sshtunnel = {
+    description = "Forward SSH through Edinburgh Uni tunnel";
+    serviceConfig = {
+      Type = "forking";
+      ExecStart = "${pkgs.autossh}/bin/autossh -M 20000 -o GSSAPIAuthentication=yes -o GSSAPIDelegateCredentials=yes -f -L 33014:localhost:33014 pscott7@ssh.inf.ed.ac.uk -N";
+      Restart = "on-failure";
+    };
+    after = [ "network-interfaces.target" ];
+    wantedBy = [ "default.target" ];
+  };
 
-  # systemd.services.sshtunnel.enable = true;
+  systemd.services.sshtunnel.enable = true;
 
-  # systemd.user.services.offlineimap = {
-  #   description = "Offline IMAP";
-  #   serviceConfig = {
-  #     ExecStart = "${pkgs.offlineimap}/bin/offlineimap}";
-  #     Restart = "onfail";
-  #   };
-  # }
+  systemd.user.services.offlineimap = {
+    description = "Offline IMAP";
+    serviceConfig = {
+      ExecStartPre = "${config.system.path}/gpg-connect-agent /bye";
+      ExecStart = "${pkgs.offlineimap}/bin/offlineimap";
+      Restart = "on-failure";
+    };
+    after = [ "network-interfaces.target" ];
+    wantedBy = [ "default.target" ];
+  };
 
-  # systemd.services.offlineimap.enable = true;
+  systemd.services.offlineimap.enable = true;
+
+  systemd.user.services.kerberosrefresh = {
+    description = "Kerberos ticket refresher";
+    serviceConfig = {
+      ExecStart = "${config.system.path}/bin/kinit pscott7 -k -t /home/phil/pscott7.keytab}";
+      Restart = "always";
+    };
+  };
+
+  systemd.user.timers.kerberosrefresh = {
+    description = "Kerberos ticket refresher timer";
+    timerConfig = {
+      OnCalendar="daily";
+      Unit = "kerberosrefresh.service";
+      Persistent = "true";
+    };
+    after = [ "network-interfaces.target" ];
+    wantedBy = [ "timers.target" ];
+  };
+
+  systemd.services.kerberosrefresh.enable = true;
 
   nixpkgs.config =
     {
