@@ -261,7 +261,7 @@
   systemd.user.services.offlineimap = {
     description = "Offline IMAP";
     serviceConfig = {
-      ExecStartPre = "${config.system.path}/gpg-connect-agent /bye";
+      ExecStartPre = "${config.system.path}/bin/gpg-connect-agent /bye";
       ExecStart = "${pkgs.offlineimap}/bin/offlineimap";
       Restart = "on-failure";
     };
