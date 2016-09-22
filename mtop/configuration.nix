@@ -245,14 +245,13 @@ e5cff20436bf49071050c7c594b8e04d
     description = "Edinburgh Uni tunnel";
     serviceConfig = {
       Type = "forking";
-      ExecStart = "${pkgs.autossh}/bin/autossh -M 20000 -o GSSAPIAuthentication=yes -o GSSAPIDelegateCredentials=yes -f -L 33014:localhost:33014 pscott7@ssh.inf.ed.ac.uk -N";
+      ExecStart = "${pkgs.autossh}/bin/autossh -M 20000 -o GSSAPIAuthentication=yes -o GSSAPIDelegateCredentials=yes -f -R 33014:localhost:22 pscott7@ssh.inf.ed.ac.uk -N";
       Restart = "on-failure";
     };
     after = [ "network-interfaces.target" ];
     wantedBy = [ "default.target" ];
+    enable = true;
   };
-
-  systemd.services.sshtunnel.enable = true;
 
   systemd.user.services.offlineimap = {
     description = "Offline IMAP";
@@ -263,9 +262,8 @@ e5cff20436bf49071050c7c594b8e04d
     };
     after = [ "network-interfaces.target" ];
     wantedBy = [ "default.target" ];
+    enable = true;
   };
-
-  systemd.services.offlineimap.enable = true;
 
   systemd.user.services.kerberosrefresh = {
     description = "Kerberos ticket refresher";
@@ -273,6 +271,7 @@ e5cff20436bf49071050c7c594b8e04d
       ExecStart = "${config.system.path}/bin/kinit pscott7 -k -t /home/phil/pscott7.keytab}";
       Restart = "always";
     };
+    enable = true;
   };
 
   systemd.user.timers.kerberosrefresh = {
@@ -284,9 +283,8 @@ e5cff20436bf49071050c7c594b8e04d
     };
     after = [ "network-interfaces.target" ];
     wantedBy = [ "timers.target" ];
+    enable = true;
   };
-
-  systemd.services.kerberosrefresh.enable = true;
 
   nixpkgs.config =
     {

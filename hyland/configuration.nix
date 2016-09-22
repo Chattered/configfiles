@@ -180,9 +180,8 @@
     };
     after = [ "network-interfaces.target" ];
     wantedBy = [ "default.target" ];
+    enable = true;
   };
-
-  systemd.services.sshtunnel.enable = true;
 
   systemd.user.services.offlineimap = {
     description = "Offline IMAP";
@@ -193,9 +192,8 @@
     };
     after = [ "network-interfaces.target" ];
     wantedBy = [ "default.target" ];
+    enable = true;
   };
-
-  systemd.services.offlineimap.enable = true;
 
   systemd.user.services.kerberosrefresh = {
     description = "Kerberos ticket refresher";
@@ -203,6 +201,7 @@
       ExecStart = "${config.system.path}/bin/kinit pscott7 -k -t /home/phil/pscott7.keytab}";
       Restart = "always";
     };
+    enable = true;
   };
 
   systemd.user.timers.kerberosrefresh = {
@@ -214,9 +213,8 @@
     };
     after = [ "network-interfaces.target" ];
     wantedBy = [ "timers.target" ];
+    enable = true;
   };
-
-  systemd.services.kerberosrefresh.enable = true;
 
   nixpkgs.config =
     {
