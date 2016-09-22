@@ -58,6 +58,9 @@
     '';
   };
 
+  services.locate.enable = true;
+  services.locate.interval = "daily";
+
   services.nfs.server = {
     enable = true;
     exports = ''
@@ -93,12 +96,12 @@
     extraConfig = ''
       one_fs	1
       snapshot_root	/backup
-      retain		hourly	6
-      retain		daily	7
-      retain		weekly	4
-      retain		monthly	6
-      backup		/home/phil/	.
-      backup		/etc/nixos/	nixos/
+      retain	hourly	6
+      retain	daily	7
+      retain	weekly	4
+      retain	monthly	6
+      backup	/home/phil/	.
+      backup	/etc/nixos/	nixos/
     '';
     cronIntervals = {
       hourly  = "@ 1h0";
@@ -120,7 +123,7 @@
         proto tcp
         resolv-retry infinite
         nobind
-	remote germany.privateinternetaccess.com 443
+        remote germany.privateinternetaccess.com 443
         persist-tun
         tls-client
         remote-cert-tls server
@@ -128,15 +131,15 @@
         comp-lzo
         verb 1
         reneg-sec 0
-	ca /root/.vpn/ca.crt
+        ca /root/.vpn/ca.crt
         crl-verify /root/.vpn/crl.pem
-	route ssh.inf.ed.ac.uk 255.255.255.255 gateway
-	route kdc.inf.ed.ac.uk 255.255.255.255 gateway
-	route imap.staffmail.ed.ac.uk 255.255.255.255 gateway
-	route smtp.staffmail.ed.ac.uk 255.255.255.255 gateway
+        route ssh.inf.ed.ac.uk 255.255.255.255 gateway
+        route kdc.inf.ed.ac.uk 255.255.255.255 gateway
+        route imap.staffmail.ed.ac.uk 255.255.255.255 gateway
+        route smtp.staffmail.ed.ac.uk 255.255.255.255 gateway
+        route irc.freenode.net 255.255.255.255 gateway
      '';
     };
-
     # Alternative servers
     # remote germany.privateinternetaccess.com 443
     # remote uk-london.privateinternetaccess.com 443
@@ -156,7 +159,6 @@
 
   users.extraUsers.phil = {
     home = "/home/phil";
-    extraGroups = [ "networkmanager" ];
     isNormalUser = true;
     uid = 1000;
   };
