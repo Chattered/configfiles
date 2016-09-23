@@ -175,7 +175,7 @@
     description = "Forward SSH through Edinburgh Uni tunnel";
     serviceConfig = {
       Type = "forking";
-      ExecStart = "${pkgs.autossh}/bin/autossh -M 20000 -o GSSAPIAuthentication=yes -o GSSAPIDelegateCredentials=yes -f -L 33014:localhost:33014 pscott7@ssh.inf.ed.ac.uk -N";
+      ExecStart = "${pkgs.autossh}/bin/autossh -M 30000 -o GSSAPIAuthentication=yes -o GSSAPIDelegateCredentials=yes -f -L 33014:localhost:33014 pscott7@ssh.inf.ed.ac.uk -N";
       Restart = "on-failure";
     };
     after = [ "network-interfaces.target" ];
