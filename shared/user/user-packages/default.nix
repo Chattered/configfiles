@@ -23,7 +23,7 @@
         x11lib = x11env + "/lib";
         x11inc = x11env + "/include";
 
-        name = "ocaml-4.01.0";
+        name = "ocaml-4.01.0-tophook";
 
         src = fetchFromGitHub {
           owner = "Chattered";
@@ -31,7 +31,6 @@
           rev = "toploop_hook";
           sha256 = "15f36riy031j7dp6wzcvyc5vyx3g400nh9pq875mj38md7xk6dba";
         };
-
 
         prefixKey = "-prefix ";
         configureFlags = ["-no-tk"] ++ optionals useX11 [ "-x11lib" x11lib
