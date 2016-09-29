@@ -5,7 +5,7 @@ in rec {
 
   firefox = {
     enableAdobeFlash = true;
-    enableAdobeFlashDRM = true;    
+    enableAdobeFlashDRM = true;
     icedtea = true;
     enableGoogleTalkPlugin = true;
   };
@@ -26,7 +26,7 @@ in rec {
       steam = pkgs.steam.override { newStdcpp = true; };
       mkOcamlPackages = ocaml: self:
         pkgs.mkOcamlPackages ocaml self
-	// pkgs.lib.mapAttrs (n: v: pkgs.newScope self v {}) userPackages.ocamlPackages;
+  // pkgs.lib.mapAttrs (n: v: pkgs.newScope self v {}) userPackages.ocamlPackages;
       emacs24 = pkgs.emacs24.override { withGTK2 = false; };
       emacsPackagesNg = pkgs.emacsPackagesNg.override (super: self: {
           twittering-mode = self.melpaPackages.twittering-mode;
