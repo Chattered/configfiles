@@ -29,7 +29,7 @@
           owner = "Chattered";
           repo = "ocaml";
           rev = "toploop_hook";
-          sha256 = "15f36riy031j7dp6wzcvyc5vyx3g400nh9pq875mj38md7xk6dba";
+          sha256 = "120yhfq7a6xpkvmxa5798pzdaikg5lmhv8lknh5a8l6aa9bns07b";
         };
 
         prefixKey = "-prefix ";
@@ -127,6 +127,7 @@
         platform = linux;
       };
     };
+    hol_light = import ./hol_light;
   };
   ocamlPackages = import ./ocaml-packages.nix;
   haskellPackages = import ./haskell-packages.nix;
