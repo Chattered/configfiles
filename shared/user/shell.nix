@@ -13,11 +13,11 @@
          then
            emacs --daemon --eval "(progn\
              (push \"${pkgs.mu}/share/emacs/site-lisp/mu4e\" load-path)\
-	     (load-file \"mu4e.el\")\
-	     (org-babel-load-file\
-	        (expand-file-name \"emacs-init.org\" (getenv \"HOME\")))\
+             (load-file \"mu4e.el\")\
+             (org-babel-load-file\
+                (expand-file-name \"emacs-init.org\" (getenv \"HOME\")))\
              (switch-to-buffer \"*scratch*\")\
- 	     (require 'helm-config)
+             (require 'helm-config)
        (paredit-mode))"
          fi
        '';
