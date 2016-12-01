@@ -24,10 +24,13 @@ in rec {
       pkgs.lib.mapAttrs (n: v: pkgs.callPackage v {}) userPackages.packages;
     in rec {
       steam = pkgs.steam.override { newStdcpp = true; };
-      mkOcamlPackages = ocaml: self:
-        pkgs.mkOcamlPackages ocaml self
-  // pkgs.lib.mapAttrs (n: v: pkgs.newScope self v {}) userPackages.ocamlPackages;
-      emacs24 = pkgs.emacs24.override { withGTK2 = false; };
+      mkOcamlPackages = ocaml:
+        pkgs.ocaml-ng.mkOcamlPackages ocaml
+          (self: super: pkgs.lib.mapAttrs (n: v: pkgs.newScope self v {})
+                                          userPackages.ocamlPackages);
+      emacs25 = pkgs.emacs25.override {
+        withGTK2 = false;
+      };
       emacsPackagesNg = pkgs.emacsPackagesNg.override (super: self: {
           twittering-mode = self.melpaPackages.twittering-mode;
           # This is the melpa package as defined in nixpkgs master. We can change to
