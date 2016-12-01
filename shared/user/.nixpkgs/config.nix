@@ -6,8 +6,6 @@ in rec {
   firefox = {
     enableAdobeFlash = true;
     enableAdobeFlashDRM = true;
-    icedtea = true;
-    enableGoogleTalkPlugin = true;
   };
 
   chromium = {
