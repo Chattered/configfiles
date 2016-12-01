@@ -24,12 +24,13 @@
         x11inc = x11env + "/include";
 
         name = "ocaml-4.01.0-tophook";
+        version = "4.01.0-tophook";
 
         src = fetchFromGitHub {
           owner = "Chattered";
           repo = "ocaml";
           rev = "toploop_hook";
-          sha256 = "120yhfq7a6xpkvmxa5798pzdaikg5lmhv8lknh5a8l6aa9bns07b";
+          sha256 = "0q28zmbzmhilnqcdirrkp8ky76a6y0zyx6ajmkfjy0qmcchxim15";
         };
 
         prefixKey = "-prefix ";
