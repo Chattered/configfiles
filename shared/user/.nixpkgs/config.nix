@@ -15,7 +15,9 @@ in rec {
   };
 
   haskellPackageOverrides = self: super:
-    pkgs.lib.mapAttrs (n: v: self.callPackage v {}) userPackages.haskellPackages;
+    pkgs.lib.mapAttrs (n: v: self.callPackage v {}) userPackages.haskellPackages // {
+     pipes-binary = pkgs.haskell.lib.dontCheck super.pipes-binary;
+  };
 
   packageOverrides = pkgs:
     let userpkgs =
