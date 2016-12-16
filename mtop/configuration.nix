@@ -22,6 +22,9 @@
 
   networking.hostName = "mtop";
   networking.hostId = "48a32733";
+  networking.dhcpcd.extraConfig = ''
+    static domain_name_servers=209.222.18.222 209.222.18.218
+  '';
 
   i18n = {
     consoleFont = "lat9w-16";
@@ -102,10 +105,6 @@
       monthly = "@ 1m16h30";
     };
   };
-
-  networking.dhcpcd.extraConfig = ''
-    static domain_name_servers=209.222.18.222 209.222.18.218
-  '';
 
   services.openvpn.servers = {
     university = {
