@@ -6,7 +6,15 @@
       ./hardware-configuration.nix
     ];
 
-  boot.loader.grub.device = /dev/sda;
+  boot.initrd.luks.devices =
+    [ { name = "luksroot";
+        device = "/dev/disk/by-id/wwn-0x5000cca768cffc54-part2"; }
+    ];
+  boot.initrd.postMountCommands =
+    "cryptsetup luksOpen --key-file /mnt-root/root/swapkeyfile /dev/disk/by-id/wwn-0x5000cca768cffc54-part3 swap";
+  swapDevices = [ { device = "/dev/mapper/swap"; } ];
+
+  boot.loader.grub.device = /dev/disk/by-label/NIXOSBOOT;
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
