@@ -124,7 +124,7 @@ iptables -I INPUT -i tun0 -j ACCEPT
         proto tcp
         resolv-retry infinite
         nobind
-        remote germany.privateinternetaccess.com 443
+        remote nl.privateinternetaccess.com 443
         persist-tun
         tls-client
         remote-cert-tls server
@@ -145,7 +145,8 @@ iptables -I INPUT -i tun0 -j ACCEPT
     # remote germany.privateinternetaccess.com 443
     # remote uk-london.privateinternetaccess.com 443
     # remote us-newyorkcity.privateinternetaccess.com 443
-  };
+    # remote nl.privateinternetaccess.com 443
+};
 
   services.cron.enable = false;
   services.fcron.enable = true;
