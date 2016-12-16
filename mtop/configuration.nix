@@ -31,7 +31,8 @@
 
   environment.systemPackages = with pkgs; [ wget (emacs.override {
     withGTK2 = false; withGTK3 = false;})
-  autossh git gnupg haskellPackages.xmobar lsof offlineimap pinentry xlockmore ];
+  aspell aspellDicts.en autossh git gnupg haskellPackages.xmobar lsof offlineimap pinentry
+  xlockmore ];
 
   krb5 = {
     enable = true;
