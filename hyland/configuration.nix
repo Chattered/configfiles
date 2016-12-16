@@ -135,6 +135,7 @@ iptables -I INPUT -i tun0 -j ACCEPT
         ca /root/.vpn/ca.crt
         crl-verify /root/.vpn/crl.pem
         route ssh.inf.ed.ac.uk 255.255.255.255 gateway
+        route staff.ssh.inf.ed.ac.uk 255.255.255.255 gateway
         route kdc.inf.ed.ac.uk 255.255.255.255 gateway
         route imap.staffmail.ed.ac.uk 255.255.255.255 gateway
         route smtp.staffmail.ed.ac.uk 255.255.255.255 gateway
