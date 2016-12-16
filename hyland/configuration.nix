@@ -23,6 +23,11 @@
   networking.hostName = "hyland";
   networking.hostId = "48a32733";
   networking.wireless.enable = true;
+  # If using a de using network manager.
+  # networking.networkmanager.insertNameservers = [
+  #   "209.222.18.222"
+  #   "209.222.18.218"
+  # ];
 
   i18n = {
     consoleFont = "lat9w-16";
