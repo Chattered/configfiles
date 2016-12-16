@@ -26,6 +26,11 @@
   networking.firewall.extraCommands = ''
 iptables -I INPUT -i tun0 -j ACCEPT
 '';
+
+  networking.dhcpcd.extraConfig = ''
+    static domain_name_servers=209.222.18.222 209.222.18.218
+  '';
+
   # If using a de using network manager.
   # networking.networkmanager.insertNameservers = [
   #   "209.222.18.222"
@@ -118,10 +123,6 @@ iptables -I INPUT -i tun0 -j ACCEPT
       monthly = "@ 1m16h30";
     };
   };
-
-  networking.dhcpcd.extraConfig = ''
-    static domain_name_servers=209.222.18.222 209.222.18.218
-  '';
 
   services.openvpn.servers = {
     privateinternetaccess = {
