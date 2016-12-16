@@ -1,10 +1,10 @@
 { pkgs ? (import <nixpkgs> {}).pkgs
 }:
 {
-   emacs = 
+   emacs =
      let myemacs =
        with pkgs.emacsPackages; with pkgs.emacsPackagesNg; pkgs.emacsWithPackages
-       [ cl-lib helm-projectile magit org paredit twittering-mode w3m ];
+       [ cl-lib helm-projectile magit org paredit w3m ];
      in pkgs.stdenv.mkDerivation {
        name = "emacs";
        buildInputs = [ myemacs pkgs.mu pkgs.offlineimap ];
