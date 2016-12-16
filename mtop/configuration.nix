@@ -107,34 +107,6 @@
   '';
 
   services.openvpn.servers = {
-    privateinternetaccess = {
-      config = ''
-        client
-        dev tun
-        proto tcp
-        resolv-retry infinite
-        nobind
-        remote germany.privateinternetaccess.com 443
-        persist-tun
-        tls-client
-        remote-cert-tls server
-        auth-user-pass /root/.vpn/pia.txt
-        comp-lzo
-        verb 1
-        reneg-sec 0
-        ca /root/.vpn/ca.crt
-        crl-verify /root/.vpn/crl.pem
-        route ssh.inf.ed.ac.uk 255.255.255.255 gateway
-        route kdc.inf.ed.ac.uk 255.255.255.255 gateway
-        route imap.staffmail.ed.ac.uk 255.255.255.255 gateway
-        route smtp.staffmail.ed.ac.uk 255.255.255.255 gateway
-        route irc.freenode.net 255.255.255.255 gateway
-     '';
-    # Alternative servers
-    # remote germany.privateinternetaccess.com 443
-    # remote uk-london.privateinternetaccess.com 443
-    # remote us-newyorkcity.privateinternetaccess.com 443
-  };
     university = {
       config = ''
 dev tun
@@ -229,6 +201,7 @@ e5cff20436bf49071050c7c594b8e04d
 
   users.extraUsers.phil = {
     home = "/home/phil";
+    extraGroups = [ "wheel" ];
     isNormalUser = true;
     uid = 1000;
   };
