@@ -81,12 +81,6 @@ iptables -I INPUT -i tun0 -j ACCEPT
     createMountPoints = false;
   };
 
-  # Commented out, since the free drivers seem just as performant, and have KMS
-  # support. The proprietary drivers don't like the auto dm, but lightdm works.
-  # nixpkgs.config.allowUnfree = true;
-  # services.xserver.videoDrivers = [ "ati_unfree" ];
-  # services.xserver.displayManager.lightdm.enable = true;
-
   services.xserver = {
     enable = true;
     layout = "dvorak";
