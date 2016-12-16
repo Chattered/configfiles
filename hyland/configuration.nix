@@ -72,9 +72,6 @@ iptables -I INPUT -i tun0 -j ACCEPT
     '';
   };
 
-  services.locate.enable = true;
-  services.locate.interval = "daily";
-
   services.nfs.server = {
     enable = true;
     exports = ''
