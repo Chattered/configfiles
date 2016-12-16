@@ -202,7 +202,6 @@ e5cff20436bf49071050c7c594b8e04d
 
   users.extraUsers.phil = {
     home = "/home/phil";
-    extraGroups = [ "wheel" ];
     isNormalUser = true;
     uid = 1000;
   };
