@@ -23,6 +23,9 @@
   networking.hostName = "hyland";
   networking.hostId = "48a32733";
   networking.wireless.enable = true;
+  networking.firewall.extraCommands = ''
+iptables -I INPUT -i tun0 -j ACCEPT
+'';
   # If using a de using network manager.
   # networking.networkmanager.insertNameservers = [
   #   "209.222.18.222"
