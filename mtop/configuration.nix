@@ -76,15 +76,16 @@
     xrandrHeads = ["HDMI1" "VGA1"];
     displayManager.auto.enable = true;
     displayManager.auto.user = "phil";
+    windowManager.default = "xmonad";
     windowManager.xmonad.enable = true;
     windowManager.xmonad.enableContribAndExtras = true;
     # Needed for my .xmonad/xmonad.hs
     windowManager.xmonad.extraPackages = pkgs: [ pkgs.PhilAlsa ];
-    windowManager.default = "xmonad";
     desktopManager.default = "none";
     desktopManager.xterm.enable = false;
   };
 
+  # Tabs are REQUIRED here
   services.rsnapshot = {
     enable = true;
     extraConfig = ''
