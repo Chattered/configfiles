@@ -95,6 +95,7 @@ iptables -I INPUT -i tun0 -j ACCEPT
     desktopManager.xterm.enable = false;
   };
 
+  # Tabs are REQUIRED here
   services.rsnapshot = {
     enable = true;
     extraConfig = ''
