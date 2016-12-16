@@ -22,4 +22,17 @@
          fi
        '';
      };
+
+   haskell-shell =
+     let
+       myemacs =
+         with pkgs.emacsPackages; with pkgs.emacsPackagesNg; pkgs.emacsWithPackages
+           [ ghc-mod haskell-mode haskellMode paredit ];
+       myhaskell = pkgs.haskellPackages.ghcWithPackages (p: with p; [
+         turtle ghc-mod
+       ]);
+     in pkgs.stdenv.mkDerivation {
+       name = "haskell-shell";
+       buildInputs = [ myemacs myhaskell ];
+     };
 }
