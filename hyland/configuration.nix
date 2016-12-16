@@ -84,7 +84,6 @@ iptables -I INPUT -i tun0 -j ACCEPT
   services.xserver = {
     enable = true;
     layout = "dvorak";
-    synaptics.enable = true;
     displayManager.auto.enable = true;
     displayManager.auto.user = "phil";
     windowManager.default = "xmonad";
