@@ -3,10 +3,7 @@
 * Setting up modes
   #+BEGIN_SRC emacs-lisp
     (require 'helm-config)
-    (require 'helm-projectile)
-    (projectile-global-mode)
-    (setq projectile-completion-system 'helm)
-    (helm-projectile-on)
+    (helm-mode 1)
   #+END_SRC
 
 * Mode hooks
