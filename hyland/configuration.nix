@@ -6,10 +6,6 @@
       ./hardware-configuration.nix
     ];
 
-  boot.initrd.luks.devices =
-    [ { name = "luksroot";
-        device = "/dev/disk/by-id/wwn-0x5000cca768cffc54-part2"; }
-    ];
   boot.initrd.postMountCommands =
     "cryptsetup luksOpen --key-file /mnt-root/root/swapkeyfile /dev/disk/by-id/wwn-0x5000cca768cffc54-part3 swap";
   swapDevices = [ { device = "/dev/mapper/swap"; } ];
@@ -22,12 +18,6 @@
 
   time.timeZone = "Europe/London";
 
-  # For running steam
-  hardware.opengl.driSupport = true;
-  hardware.opengl.driSupport32Bit = true;
-  hardware.pulseaudio.enable = true;
-  hardware.pulseaudio.support32Bit = true;
-
   networking.hostName = "hyland";
   networking.hostId = "48a32733";
   networking.wireless.enable = true;
@@ -35,11 +25,15 @@
 iptables -I INPUT -i tun0 -j ACCEPT
 '';
 
+  # For running steam
+  hardware.opengl.driSupport = true;
+  hardware.opengl.driSupport32Bit = true;
+  hardware.pulseaudio.enable = true;
+  hardware.pulseaudio.support32Bit = true;
+
   networking.dhcpcd.extraConfig = ''
     static domain_name_servers=209.222.18.222 209.222.18.218
   '';
-
-  # If using a de using network manager.
   # networking.networkmanager.insertNameservers = [
   #   "209.222.18.222"
   #   "209.222.18.218"
@@ -147,7 +141,6 @@ iptables -I INPUT -i tun0 -j ACCEPT
         route kdc.inf.ed.ac.uk 255.255.255.255 gateway
         route imap.staffmail.ed.ac.uk 255.255.255.255 gateway
         route smtp.staffmail.ed.ac.uk 255.255.255.255 gateway
-        route irc.freenode.net 255.255.255.255 gateway
      '';
     };
     # Alternative servers
@@ -199,7 +192,7 @@ iptables -I INPUT -i tun0 -j ACCEPT
     serviceConfig = {
       ExecStartPre = "${config.system.path}/bin/gpg-connect-agent /bye";
       ExecStart = "${pkgs.offlineimap}/bin/offlineimap";
-      Restart = "on-failure";
+      Restart = "no";
     };
     after = [ "network-interfaces.target" ];
     wantedBy = [ "default.target" ];
