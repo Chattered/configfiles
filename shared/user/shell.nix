@@ -29,10 +29,15 @@
          with pkgs.emacsPackages; with pkgs.emacsPackagesNg; pkgs.emacsWithPackages
            [ ghc-mod haskell-mode haskellMode paredit ];
        myhaskell = pkgs.haskellPackages.ghcWithPackages (p: with p; [
-         turtle ghc-mod
+         turtle ghc-mod QuickCheck
        ]);
      in pkgs.stdenv.mkDerivation {
        name = "haskell-shell";
        buildInputs = [ myemacs myhaskell ];
+     };
+   media =
+     with pkgs; stdenv.mkDerivation {
+       name = "media";
+       buildInputs = [ ffmpeg vlc youtube-dl mplayer ];
      };
 }
