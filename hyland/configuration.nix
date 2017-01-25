@@ -164,6 +164,7 @@ iptables -I INPUT -i tun0 -j ACCEPT
   users.extraUsers.phil = {
     home = "/home/phil";
     isNormalUser = true;
+    extraGroups = [ "video" ];
     uid = 1000;
   };
   users.extraUsers.ipfs = {
