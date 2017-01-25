@@ -55,5 +55,5 @@ in rec {
                 };
               }) {};
         });
-      } // userpkgs;
+    } // userpkgs;
 }
