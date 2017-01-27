@@ -275,7 +275,7 @@ e5cff20436bf49071050c7c594b8e04d
             owner = "Chattered";
             repo = "PhiledAlsa";
             rev = "master";
-            sha256 = "05nki9xqwl9cpdwnv8waz4ccjky89ldmvgxyfx0wji6mqinibl7h";
+            sha256 = "0f1kvqid2vp22v10n2jl18c5qrrl2wza1rc11avs6gnvkwzmw07x";
           };
           isLibrary = true;
           isExecutable = false;
