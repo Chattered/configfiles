@@ -6,7 +6,11 @@
       ./hardware-configuration.nix
     ];
 
-  boot.loader.grub.device = /dev/sda;
+  boot.initrd.postMountCommands =
+    "cryptsetup luksOpen --key-file /mnt-root/root/swapkeyfile /dev/disk/by-id/ata-WDC_WD2500AAKX-603CA0_WD-WMAYV2919936-part3 swap";
+  swapDevices = [ { device = "/dev/mapper/swap"; } ];
+
+  boot.loader.grub.device = /dev/disk/by-label/NIXOSBOOT;
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
