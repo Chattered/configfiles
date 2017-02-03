@@ -2,12 +2,17 @@
 }:
 {
    emacs =
-     let myemacs =
-       with pkgs.emacsPackages; with pkgs.emacsPackagesNg; pkgs.emacsWithPackages
-       [ cl-lib helm-projectile magit org paredit w3m ];
+     let
+       myemacs =
+         with pkgs.emacsPackages; with pkgs.emacsPackagesNg; pkgs.emacsWithPackages
+         [ cl-lib helm-projectile magit org paredit w3m
+           ghc-mod haskell-mode haskellMode ];
+       myhaskell = pkgs.haskellPackages.ghcWithPackages (p: with p; [
+         turtle ghc-mod QuickCheck
+       ]);
      in pkgs.stdenv.mkDerivation {
        name = "emacs";
-       buildInputs = [ myemacs pkgs.mu pkgs.offlineimap ];
+       buildInputs = [ myemacs myhaskell pkgs.mu pkgs.offlineimap ];
        shellHook = ''
          if [[ ! -e $TMP/emacs$UID/server ]]
          then
@@ -21,19 +26,6 @@
        (paredit-mode))"
          fi
        '';
-     };
-
-   haskell-shell =
-     let
-       myemacs =
-         with pkgs.emacsPackages; with pkgs.emacsPackagesNg; pkgs.emacsWithPackages
-           [ ghc-mod haskell-mode haskellMode paredit ];
-       myhaskell = pkgs.haskellPackages.ghcWithPackages (p: with p; [
-         turtle ghc-mod QuickCheck
-       ]);
-     in pkgs.stdenv.mkDerivation {
-       name = "haskell-shell";
-       buildInputs = [ myemacs myhaskell ];
      };
    media =
      with pkgs; stdenv.mkDerivation {
