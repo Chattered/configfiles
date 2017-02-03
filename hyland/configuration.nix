@@ -148,7 +148,7 @@ iptables -I INPUT -i tun0 -j ACCEPT
     # remote uk-london.privateinternetaccess.com 443
     # remote us-newyorkcity.privateinternetaccess.com 443
     # remote nl.privateinternetaccess.com 443
-};
+  };
 
   services.cron.enable = false;
   services.fcron.enable = true;
