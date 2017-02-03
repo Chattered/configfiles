@@ -74,6 +74,30 @@
     createMountPoints = false;
   };
 
+  systemd.mounts = [
+    {
+      where = "/home/phil/yesterday";
+      what = "localhost:/dios/backup/daily.0/home/phil/";
+      type = "nfs";
+    }
+    {
+      where = "/home/phil/recent";
+      what = "localhost:/dios/backup/hourly.0/home/phil/";
+      type = "nfs";
+    }
+  ];
+
+  systemd.automounts = [
+    {
+      where = "/home/phil/yesterday";
+      wantedBy = [ "multi-user.target" ];
+    }
+    {
+      where = "/home/phil/recent";
+      wantedBy = [ "multi-user.target" ];
+    }
+  ];
+
   services.xserver = {
     enable = true;
     layout = "dvorak";
