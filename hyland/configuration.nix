@@ -83,6 +83,30 @@ iptables -I INPUT -i tun0 -j ACCEPT
     createMountPoints = false;
   };
 
+  systemd.mounts = [
+    {
+      where = "/home/phil/yesterday";
+      what = "localhost:/backup/daily.0/home/phil/";
+      type = "nfs";
+    }
+    {
+      where = "/home/phil/recent";
+      what = "localhost:/backups/hourly.0/home/phil/";
+      type = "nfs";
+    }
+  ];
+
+  systemd.automounts = [
+    {
+      where = "/home/phil/yesterday";
+      wantedBy = [ "multi-user.target" ];
+    }
+    {
+      where = "/home/phil/recent";
+      wantedBy = [ "multi-user.target" ];
+    }
+  ];
+
   services.xserver = {
     enable = true;
     layout = "dvorak";
