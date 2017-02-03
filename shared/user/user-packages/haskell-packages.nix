@@ -10,7 +10,7 @@
         owner = "Chattered";
         repo = "PhiledCommon";
         rev = "master";
-        sha256 = "1f4dvnnvbwqa4kqi5fydq6h0g25cf54sffi80xq2dqwcfnh61qnq";
+        sha256 = "14k6s5h7c8cgz7q54vlgw9hpb5hlnp8dirzihzjm8pp4f6laywa2";
       };
       libraryHaskellDepends = [
         array base binary comonad containers free mtl parsec QuickCheck
