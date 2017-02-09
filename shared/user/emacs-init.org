@@ -6,6 +6,17 @@
   (add-hook 'emacs-lisp-mode-hook 'paredit-mode)
   (require 'helm)
   (require 'helm-config)
+  (require 'haskell)
+  (require 'haskell-mode)
+  (require 'haskell-indentation)
+  (add-hook 'haskell-mode-hook 'whitespace-mode)
+  (add-hook 'haskell-mode-hook 'haskell-indentation-mode)
+  (add-hook 'haskell-mode-hook 'interactive-haskell-mode)
+  (require 'magit)
+  (require 'ghc)
+  (require 'helm-config)
+  (require 'helm-projectile)
+  (helm-mode 1)
 #+END_SRC
 
 Common Lisp compatibility for emacs lisp.
