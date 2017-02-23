@@ -129,3 +129,76 @@ Common Lisp compatibility for emacs lisp.
                               org-stored-links))))
                t)
 #+END_SRC
+
+** Set up bookmarks:
+
+#+BEGIN_SRC emacs-lisp
+  (defvar philed-mu4e-mailing-lists
+    (mapconcat
+     (lambda (x) (concat "list:" x))
+     '("inf-general.inf.ed.ac.uk"
+       "if-people.inf.ed.ac.uk"
+       "research-staff@inf.ed.ac.uk"
+       "cisa-members.inf.ed.ac.uk"
+       "cisa-staff.inf.ed.ac.uk"
+       "hol-info.lists.sourceforge.net"
+       "seminars.inf.ed.ac.uk"
+       "lfcs-interest@inf.ed.ac.uk"
+       "edindreamers.inf.ed.ac.uk"
+       "libraries.haskell.org"
+       "hol-info.lists.sourceforge.net"
+       "proofpeer-dev@googlegroups.com"
+       "security-privacy.inf.ed.ac.uk"
+       "iad_researcher_development.mlist.is.ed.ac.uk"
+       "pdra-staff.inf.ed.ac.uk"
+       "staff.inf.ed.ac.uk"
+       "security-club.inf.ed.ac.uk"
+       "caml-list.inria.fr")
+     " OR "))
+
+  (defvar philed-mu4e-notifications
+    (mapconcat
+     (lambda (x) (concat "from:" x))
+     '("auto-confirm@amazon.co.uk"
+       "noreply@bandcamp.com"
+       "justeat@order.just-eat.co.uk"
+       "digital-no-reply@amazon.co.uk")
+     " OR "))
+
+  (setf mu4e-bookmarks
+        (list (make-mu4e-bookmark
+               :name "Unread messages"
+               :query (concat "flag:unread AND NOT "
+                              (concat
+                               "(" philed-mu4e-mailing-lists
+                               " OR "
+                               philed-mu4e-notifications)
+                              ")")
+               :key 117)
+              (make-mu4e-bookmark
+               :name "Today's messages"
+               :query (concat "date:today..now AND NOT "
+                              (concat
+                               "(" philed-mu4e-mailing-lists
+                               " OR "
+                               philed-mu4e-notifications)
+                              ")")
+               :key 116)
+              (make-mu4e-bookmark
+               :name "Last 7 days"
+               :query (concat "date:7d..now AND NOT "
+                              (concat
+                               "(" philed-mu4e-mailing-lists
+                               " OR "
+                               philed-mu4e-notifications)
+                              ")")
+               :key 119)
+              (make-mu4e-bookmark
+               :name "Mailing lists"
+               :query philed-mu4e-mailing-lists
+               :key 108)
+              (make-mu4e-bookmark
+               :name "Notifications"
+               :query philed-mu4e-notifications
+               :key 110)))
+#+END_SRC
