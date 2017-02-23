@@ -15,7 +15,6 @@
   (require 'magit)
   (require 'ghc)
   (require 'helm-config)
-  (require 'helm-projectile)
   (helm-mode 1)
 #+END_SRC
 
