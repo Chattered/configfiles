@@ -257,6 +257,7 @@ e5cff20436bf49071050c7c594b8e04d
   systemd.user.services.offlineimap = {
     description = "Offline IMAP";
     serviceConfig = {
+      Environment="GNUPGHOME=/tails/gnupg";
       ExecStartPre = "${config.system.path}/bin/gpg-connect-agent /bye";
       ExecStart = "${pkgs.offlineimap}/bin/offlineimap";
       Restart = "on-failure";
