@@ -215,9 +215,10 @@ iptables -I INPUT -i tun0 -j ACCEPT
   systemd.user.services.offlineimap = {
     description = "Offline IMAP";
     serviceConfig = {
+      Environment="GNUPGHOME=/tails/gnupg";
       ExecStartPre = "${config.system.path}/bin/gpg-connect-agent /bye";
       ExecStart = "${pkgs.offlineimap}/bin/offlineimap";
-      Restart = "no";
+      Restart = "on-failure";
     };
     after = [ "network-interfaces.target" ];
     wantedBy = [ "default.target" ];
