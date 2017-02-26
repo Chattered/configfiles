@@ -245,8 +245,9 @@ e5cff20436bf49071050c7c594b8e04d
   systemd.user.services.sshtunnel = {
     description = "Edinburgh Uni tunnel";
     serviceConfig = {
+      Environment="AUTOSSH_PATH=${config.system.path}/bin/ssh";
       Type = "forking";
-      ExecStart = "${pkgs.autossh}/bin/autossh -M 30000 -o GSSAPIAuthentication=yes -o GSSAPIDelegateCredentials=yes -f -R 33014:localhost:22 pscott7@ssh.inf.ed.ac.uk -N";
+      ExecStart = "${pkgs.autossh}/bin/autossh -M 30000 -f -R 33015:localhost:22 pscott7@staff.ssh.inf.ed.ac.uk -N";
       Restart = "on-failure";
     };
     after = [ "network-interfaces.target" ];
