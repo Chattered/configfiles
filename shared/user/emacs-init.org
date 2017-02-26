@@ -16,6 +16,7 @@
   (require 'ghc)
   (require 'helm-config)
   (helm-mode 1)
+  (pdf-tools-install)
 #+END_SRC
 
 Common Lisp compatibility for emacs lisp.
