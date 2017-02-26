@@ -91,7 +91,7 @@ iptables -I INPUT -i tun0 -j ACCEPT
     }
     {
       where = "/home/phil/recent";
-      what = "localhost:/backups/hourly.0/home/phil/";
+      what = "localhost:/backup/hourly.0/home/phil/";
       type = "nfs";
     }
   ];
