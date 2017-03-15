@@ -43,8 +43,8 @@ iptables -I INPUT -i tun0 -j ACCEPT
 
   environment.systemPackages = with pkgs; [ wget (emacs.override {
     withGTK2 = false; withGTK3 = false;})
-  aspell aspellDicts.en autossh git gnupg haskellPackages.xmobar lsof offlineimap pinentry
-  xlockmore ];
+  aspell aspellDicts.en git gnupg haskellPackages.xmobar lsof offlineimap pinentry
+  xlockmore xclip ];
 
   krb5 = {
     enable = true;
