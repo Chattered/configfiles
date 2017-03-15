@@ -52,5 +52,6 @@ in rec {
                 };
               }) {};
         });
+      mu = pkgs.mu.override { withMug = false; };
     } // userpkgs;
 }
