@@ -13,8 +13,7 @@ import XMonad.Util.Run
 import XMonad.Util.EZConfig
 import XMonad.Hooks.ManageDocks
 import XMonad.Hooks.DynamicLog
-import XMonad.Hooks.EwmhDesktops
-import XMonad.Layout.NoBorders
+import qualified XMonad.StackSet as W
 
 onPlayback :: (Elem -> Alsa a) -> Alsa a
 onPlayback f = do
@@ -49,31 +48,49 @@ muteVolume :: Alsa ()
 muteVolume = onPlayback $ \p -> do
   switchOff p 0 >> switchOff p 1
 
+touchPadOn :: MonadIO m => m ()
+touchPadOn = spawn "xinput enable \"SynPS/2 Synaptics TouchPad\""
+
+touchPadOff :: MonadIO m => m ()
+touchPadOff = spawn "xinput disable \"SynPS/2 Synaptics TouchPad\""
+
+touchPadToggle :: MonadIO m => IORef Bool -> m ()
+touchPadToggle status = do
+  s <- liftIO (readIORef status)
+  if s then touchPadOff else touchPadOn
+  liftIO (modifyIORef status not)
+
 main = do
-  Just home <- getEnv "HOME"
-  setEnv "NIX_PATH" (home </> "unstable") False
   kbLayouts <- newIORef (cycle ["dvorak","us"])
-  let nextLayout = fmap head (readIORef kbLayouts) <* modifyIORef kbLayouts tail
-  let doNextLayout = liftIO nextLayout >>= spawn . ("setxkbmap " ++)
-  h <- spawnPipe "xmobar"
-  xmonad $ ewmh defaultConfig
-        { logHook    = dynamicLogWithPP $ xmobarPP { ppOutput = hPutStrLn h }
-        , layoutHook = smartBorders(avoidStruts $ layoutHook defaultConfig)
-        , manageHook = manageHook defaultConfig <+> manageDocks
-        , handleEventHook = handleEventHook defaultConfig <+> fullscreenEventHook
-        , modMask = mod4Mask
-        , terminal = "xterm"
-        } `additionalKeys`
-       [ ((mod4Mask .|. shiftMask, xK_t),
-          spawn "nix-shell -p torbrowser --run tor-browser")
-       , ((mod4Mask .|. shiftMask, xK_f),
-          spawn "nix-shell -p firefox --run firefox")
-       , ((mod4Mask .|. shiftMask, xK_m),
-          spawn "nix-shell -A emacs --run 'emacsclient -c'")
-       , ((mod4Mask,               xK_s), doNextLayout)
-       , ((mod4Mask,               xK_semicolon), doNextLayout)
-       , ((mod4Mask,               xK_u), liftIO . runAlsa "hw:0" $ upVolume)
-       , ((mod4Mask,               xK_d), liftIO . runAlsa "hw:0" $ downVolume)
-       , ((mod4Mask .|. shiftMask, xK_d), liftIO . runAlsa "hw:0" $ muteVolume)
-       , ((mod4Mask              , xK_x), spawn "xlock -mode blank")
-       ]
+  touchPadStatus <- newIORef True
+  touchPadOn
+  let myxmobarPP = xmobarPP { ppCurrent = xmobarColor "#429942" "" }
+  statusBar "xmobar" myxmobarPP toggleStrutsKey (myConfig kbLayouts touchPadStatus) >>= xmonad
+
+toggleStrutsKey XConfig {XMonad.modMask = modMask} = (modMask, xK_b)
+
+myConfig kbLayouts touchPadStatus =
+  defaultConfig
+  { layoutHook = avoidStruts $ layoutHook defaultConfig
+  , manageHook = manageHook defaultConfig <+> manageDocks
+  , modMask = mod4Mask
+  , terminal = "xterm"
+  } `additionalKeys`
+  [ ((mod4Mask .|. shiftMask, xK_t),
+     spawn "nix-shell -p torbrowser --run tor-browser")
+  , ((mod4Mask .|. shiftMask, xK_f),
+     spawn "nix-shell -p firefox --run firefox")
+  , ((mod4Mask .|. shiftMask, xK_m),
+     spawn "nix-shell -A emacs --run 'emacsclient -c'")
+  , ((mod4Mask,               xK_s), doNextLayout)
+  , ((mod4Mask,               xK_semicolon), doNextLayout)
+  , ((mod4Mask,               xK_u), liftIO . runAlsa "hw:2" $ upVolume)
+  , ((mod4Mask,               xK_d), liftIO . runAlsa "hw:2" $ downVolume)
+  , ((mod4Mask .|. shiftMask, xK_d), liftIO . runAlsa "hw:2" $ muteVolume)
+  , ((mod4Mask              , xK_x), spawn "xlock -mode blank")
+  , ((mod4Mask,               xK_t), touchPadToggle touchPadStatus)
+  , ((mod4Mask .|. shiftMask, xK_t), withFocused $ windows . W.sink)
+  , ((mod4Mask,               xK_c), spawn "echo \"\" | xclip -selection clipboard")
+  ]
+  where nextLayout = fmap head (readIORef kbLayouts) <* modifyIORef kbLayouts tail
+        doNextLayout = liftIO nextLayout >>= spawn . ("setxkbmap " ++)
