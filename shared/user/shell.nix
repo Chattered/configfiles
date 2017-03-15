@@ -6,7 +6,7 @@
        myemacs =
          with pkgs.emacsPackages; with pkgs.emacsPackagesNg; pkgs.emacsWithPackages
          [ cl-lib helm-projectile magit org paredit pdf-tools w3m
-           ghc-mod haskell-mode haskellMode ];
+           ghc-mod haskell-mode haskellMode twittering-mode ];
        myhaskell = pkgs.haskellPackages.ghcWithPackages (p: with p; [
          turtle ghc-mod QuickCheck
        ]);

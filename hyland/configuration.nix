@@ -115,6 +115,7 @@ iptables -I INPUT -i tun0 -j ACCEPT
     windowManager.xmonad.extraPackages = pkgs: [ pkgs.PhilAlsa ];
     desktopManager.default = "none";
     desktopManager.xterm.enable = false;
+    synaptics.enable = true;
   };
 
   # Tabs are REQUIRED here
