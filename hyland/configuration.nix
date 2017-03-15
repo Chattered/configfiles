@@ -203,7 +203,7 @@ iptables -I INPUT -i tun0 -j ACCEPT
     serviceConfig = {
       Environment="AUTOSSH_PATH=${config.system.path}/bin/ssh";
       Type = "forking";
-      ExecStart = "${pkgs.autossh}/bin/autossh -M 30000 -f -L 33015:localhost:33015 pscott7@ssh.inf.ed.ac.uk -N";
+      ExecStart = "${pkgs.autossh}/bin/autossh -M 30000 -o GSSAPIAuthentication=yes -o GSSAPIDelegateCredentials=yes -f -L 33015:localhost:33015 pscott7@staff.ssh.inf.ed.ac.uk -N";
       Restart = "on-failure";
     };
     after = [ "network-interfaces.target" ];
