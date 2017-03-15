@@ -18,18 +18,14 @@
 
   time.timeZone = "Europe/London";
 
+  hardware.pulseaudio.enable = true;
+
   networking.hostName = "hyland";
   networking.hostId = "48a32733";
   networking.wireless.enable = true;
   networking.firewall.extraCommands = ''
 iptables -I INPUT -i tun0 -j ACCEPT
 '';
-
-  # For running steam
-  hardware.opengl.driSupport = true;
-  hardware.opengl.driSupport32Bit = true;
-  hardware.pulseaudio.enable = true;
-  hardware.pulseaudio.support32Bit = true;
 
   networking.dhcpcd.extraConfig = ''
     static domain_name_servers=209.222.18.222 209.222.18.218

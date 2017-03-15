@@ -1,8 +1,6 @@
 { pkgs }:
 let userPackages = import <userpackages>;
 in rec {
-  allowUnfree = true;
-
   haskellPackageOverrides = self: super:
     pkgs.lib.mapAttrs (n: v: self.callPackage v {}) userPackages.haskellPackages // {
      pipes-binary = pkgs.haskell.lib.dontCheck super.pipes-binary;
@@ -12,7 +10,6 @@ in rec {
     let userpkgs =
       pkgs.lib.mapAttrs (n: v: pkgs.callPackage v {}) userPackages.packages;
     in rec {
-      steam = pkgs.steam.override { newStdcpp = true; };
       mkOcamlPackages = ocaml:
         pkgs.ocaml-ng.mkOcamlPackages ocaml
           (self: super: pkgs.lib.mapAttrs (n: v: pkgs.newScope self v {})
