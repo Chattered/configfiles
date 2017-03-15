@@ -227,7 +227,7 @@ iptables -I INPUT -i tun0 -j ACCEPT
   systemd.user.services.kerberosrefresh = {
     description = "Kerberos ticket refresher";
     serviceConfig = {
-      ExecStart = "${config.system.path}/bin/kinit pscott7 -k -t /home/phil/pscott7.keytab}";
+      ExecStart = "${config.system.path}/bin/kinit pscott7 -k -t /home/phil/pscott7.keytab";
       Restart = "always";
     };
     enable = true;
