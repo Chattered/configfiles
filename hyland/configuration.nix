@@ -162,6 +162,7 @@ iptables -I INPUT -i tun0 -j ACCEPT
         route kdc.inf.ed.ac.uk 255.255.255.255 gateway
         route imap.staffmail.ed.ac.uk 255.255.255.255 gateway
         route smtp.staffmail.ed.ac.uk 255.255.255.255 gateway
+        route momentoftop.com 255.255.255.255 gateway
      '';
     };
     # Alternative servers
