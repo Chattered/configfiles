@@ -25,6 +25,7 @@ in rec {
       });
       emacs25 = pkgs.emacs25.override {
         withGTK2 = false;
+        withGTK3 = false;
       };
       emacsPackagesNg = pkgs.emacsPackagesNg.override (super: self: {
           twittering-mode = self.melpaPackages.twittering-mode;
