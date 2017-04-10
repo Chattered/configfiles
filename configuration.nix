@@ -58,14 +58,6 @@ iptables -I INPUT -i tun0 -j ACCEPT
   services.locate.interval = "hourly";
   services.locate.localuser = "phil";
 
-  services.printing = {
-    enable = true;
-    webInterface = false;
-    clientConf = ''
-      ServerName infcups.inf.ed.ac.uk
-    '';
-  };
-
   services.nfs.server = {
     enable = true;
     exports = ''
@@ -153,11 +145,6 @@ iptables -I INPUT -i tun0 -j ACCEPT
         reneg-sec 0
         ca /root/.vpn/ca.crt
         crl-verify /root/.vpn/crl.pem
-        route ssh.inf.ed.ac.uk 255.255.255.255 gateway
-        route staff.ssh.inf.ed.ac.uk 255.255.255.255 gateway
-        route kdc.inf.ed.ac.uk 255.255.255.255 gateway
-        route imap.staffmail.ed.ac.uk 255.255.255.255 gateway
-        route smtp.staffmail.ed.ac.uk 255.255.255.255 gateway
         route momentoftop.com 255.255.255.255 gateway
      '';
     };
@@ -171,14 +158,6 @@ iptables -I INPUT -i tun0 -j ACCEPT
   services.cron.enable = false;
   services.fcron.enable = true;
 
-  # Broken upstream for now
-  # services.openafsClient = {
-  #   enable = true;
-  #   cellName = "inf.ed.ac.uk";
-  #   cacheSize = "500000";
-  #   sparse = true;
-  # };
-
   users.extraUsers.phil = {
     home = "/home/phil";
     isNormalUser = true;
@@ -190,22 +169,15 @@ iptables -I INPUT -i tun0 -j ACCEPT
     isNormalUser = true;
     uid = 1001;
   };
+  users.extraUsers.alyn = {
+    home = "/home/alyn";
+    isNormalUser = true;
+    uid = 1002;
+  };
 
   system.autoUpgrade.enable = true;
 
   # User services
-  systemd.user.services.sshtunnel = {
-    description = "Forward SSH through Edinburgh Uni tunnel";
-    serviceConfig = {
-      Environment="AUTOSSH_PATH=${config.system.path}/bin/ssh";
-      Type = "forking";
-      ExecStart = "${pkgs.autossh}/bin/autossh -M 30000 -f -L 33015:localhost:33015 pscott7@staff.ssh.inf.ed.ac.uk -N";
-      Restart = "on-failure";
-    };
-    after = [ "network-interfaces.target" ];
-    wantedBy = [ "default.target" ];
-    enable = true;
-  };
 
   systemd.user.services.offlineimap = {
     description = "Offline IMAP";
@@ -217,27 +189,6 @@ iptables -I INPUT -i tun0 -j ACCEPT
     };
     after = [ "network-interfaces.target" ];
     wantedBy = [ "default.target" ];
-    enable = true;
-  };
-
-  systemd.user.services.kerberosrefresh = {
-    description = "Kerberos ticket refresher";
-    serviceConfig = {
-      ExecStart = "${config.system.path}/bin/kinit pscott7 -k -t /home/phil/pscott7.keytab";
-      Restart = "always";
-    };
-    enable = true;
-  };
-
-  systemd.user.timers.kerberosrefresh = {
-    description = "Kerberos ticket refresher timer";
-    timerConfig = {
-      OnCalendar="daily";
-      Unit = "kerberosrefresh.service";
-      Persistent = "true";
-    };
-    after = [ "network-interfaces.target" ];
-    wantedBy = [ "timers.target" ];
     enable = true;
   };
 
@@ -264,10 +215,6 @@ iptables -I INPUT -i tun0 -j ACCEPT
           license = pkgs.stdenv.lib.licenses.mit;
           hydraPlatforms = pkgs.stdenv.lib.platforms.none;
         };
-      };
-      packageOverrides = super:
-      {
-        openssh = super.openssh.override { withKerberos = true; };
       };
   };
 }
