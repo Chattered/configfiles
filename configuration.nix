@@ -27,13 +27,9 @@
 iptables -I INPUT -i tun0 -j ACCEPT
 '';
 
-  networking.dhcpcd.extraConfig = ''
-    static domain_name_servers=209.222.18.222 209.222.18.218
-  '';
-  # networking.networkmanager.insertNameservers = [
-  #   "209.222.18.222"
-  #   "209.222.18.218"
-  # ];
+ networking.dhcpcd.extraConfig = ''
+   static domain_name_servers=209.222.18.222 209.222.18.218
+ '';
 
   i18n = {
     consoleFont = "lat9w-16";
