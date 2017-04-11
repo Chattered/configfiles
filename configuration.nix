@@ -1,5 +1,35 @@
 { config, pkgs, ... }:
 
+let
+  utils = import ./utils.nix;
+  rsnapshotService = start: interval: {
+    systemd.services."rsnapshot${interval}" = {
+      description = "rsnapshot ${interval} backup";
+      serviceConfig = {
+        ExecStart = "${config.system.path}/bin/rsnapshot ${interval}";
+        Restart = "no";
+      };
+      after = [ "default.target" ];
+      wantedBy = [ "default.target" ];
+      enable = true;
+    };
+    systemd.timers."rsnapshot${interval}" = {
+      description = "rsnapshot ${interval} timer";
+      timerConfig = {
+        OnBootSec="${start}";
+        OnActiveUnitSec="${interval}";
+        Unit = "rsnapshot${interval}.service";
+        Persistent = "true";
+      };
+      wantedBy = [ "timers.target" ];
+      enable = true;
+    };
+  };
+in
+utils.addDeep (rsnapshotService "1h0" "hourly")
+(utils.addDeep (rsnapshotService "2h0" "daily")
+ (utils.addDeep (rsnapshotService "3h0" "weekly")
+  (utils.addDeep (rsnapshotService "4h0" "monthly")
 {
   imports =
     [ # Include the results of the hardware scan.
@@ -119,12 +149,6 @@ iptables -I INPUT -i tun0 -j ACCEPT
       backup	/home/phil/	.
       backup	/etc/nixos/	nixos/
     '';
-    cronIntervals = {
-      hourly  = "@ 1h0";
-      daily   = "@ 1d30";
-      weekly  = "@ 1w8h30";
-      monthly = "@ 1m16h30";
-    };
   };
 
   services.openvpn.servers = {
@@ -154,9 +178,6 @@ iptables -I INPUT -i tun0 -j ACCEPT
     # remote us-newyorkcity.privateinternetaccess.com 443
     # remote nl.privateinternetaccess.com 443
   };
-
-  services.cron.enable = false;
-  services.fcron.enable = true;
 
   users.extraUsers.phil = {
     home = "/home/phil";
@@ -217,4 +238,4 @@ iptables -I INPUT -i tun0 -j ACCEPT
         };
       };
   };
-}
+})))
