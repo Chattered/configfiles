@@ -55,8 +55,8 @@ utils.addDeep (rsnapshotService "1h0" "hourly")
   networking.wireless.enable = true;
   networking.firewall.trustedInterfaces = [ "tun0" ];
 
- networking.dhcpcd.extraConfig = ''
-   static domain_name_servers=209.222.18.222 209.222.18.218
+  networking.dhcpcd.extraConfig = ''
+    static domain_name_servers=209.222.18.222 209.222.18.218
  '';
 
   i18n = {
