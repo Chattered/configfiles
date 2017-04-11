@@ -53,9 +53,7 @@ utils.addDeep (rsnapshotService "1h0" "hourly")
   networking.hostName = "hyland";
   networking.hostId = "48a32733";
   networking.wireless.enable = true;
-  networking.firewall.extraCommands = ''
-iptables -I INPUT -i tun0 -j ACCEPT
-'';
+  networking.firewall.trustedInterfaces = [ "tun0" ];
 
  networking.dhcpcd.extraConfig = ''
    static domain_name_servers=209.222.18.222 209.222.18.218
