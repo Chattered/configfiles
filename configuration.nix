@@ -7,7 +7,7 @@ let
       description = "rsnapshot ${interval} backup";
       serviceConfig = {
         ExecStart = "${config.system.path}/bin/rsnapshot ${interval}";
-        Restart = "no";
+        Restart = "on-failure";
       };
       after = [ "default.target" ];
       wantedBy = [ "default.target" ];
@@ -16,7 +16,7 @@ let
     systemd.timers."rsnapshot${interval}" = {
       description = "rsnapshot ${interval} timer";
       timerConfig = {
-        OnBootSec="${start}";
+        OnStartupSec="${start}";
         OnActiveUnitSec="${interval}";
         Unit = "rsnapshot${interval}.service";
         Persistent = "true";
