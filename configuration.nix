@@ -59,6 +59,11 @@ utils.addDeep (rsnapshotService "1h0" "hourly")
     static domain_name_servers=209.222.18.222 209.222.18.218
  '';
 
+  virtualisation.virtualbox.host = {
+    enable = true;
+    headless = true;
+  };
+
   i18n = {
     consoleFont = "lat9w-16";
     consoleKeyMap = "dvorak";
@@ -180,7 +185,7 @@ utils.addDeep (rsnapshotService "1h0" "hourly")
   users.extraUsers.phil = {
     home = "/home/phil";
     isNormalUser = true;
-    extraGroups = [ "video" ];
+    extraGroups = [ "video" "vboxusers" ];
     uid = 1000;
   };
   users.extraUsers.ipfs = {
