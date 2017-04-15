@@ -2,7 +2,7 @@
 
 let
   utils = import ./utils.nix;
-  rsnapshotService = start: interval: {
+  rsnapshotService = at: interval: {
     systemd.services."rsnapshot${interval}" = {
       description = "rsnapshot ${interval} backup";
       serviceConfig = {
@@ -16,8 +16,7 @@ let
     systemd.timers."rsnapshot${interval}" = {
       description = "rsnapshot ${interval} timer";
       timerConfig = {
-        OnStartupSec="${start}";
-        OnActiveUnitSec="${interval}";
+        OnUnitActiveSec="${at}";
         Unit = "rsnapshot${interval}.service";
         Persistent = "true";
       };
@@ -26,10 +25,10 @@ let
     };
   };
 in
-utils.addDeep (rsnapshotService "1h0" "hourly")
-(utils.addDeep (rsnapshotService "2h0" "daily")
- (utils.addDeep (rsnapshotService "3h0" "weekly")
-  (utils.addDeep (rsnapshotService "4h0" "monthly")
+utils.addDeep (rsnapshotService "1h" "hourly")
+(utils.addDeep (rsnapshotService "1d" "daily")
+ (utils.addDeep (rsnapshotService "1w" "weekly")
+  (utils.addDeep (rsnapshotService "1M" "monthly")
 {
   imports =
     [ # Include the results of the hardware scan.
