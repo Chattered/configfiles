@@ -8,6 +8,7 @@ let
       serviceConfig = {
         ExecStart = "${config.system.path}/bin/rsnapshot ${interval}";
         Restart = "on-failure";
+        RestartSec = "10m";
       };
       after = [ "default.target" ];
       wantedBy = [ "default.target" ];
@@ -16,7 +17,7 @@ let
     systemd.timers."rsnapshot${interval}" = {
       description = "rsnapshot ${interval} timer";
       timerConfig = {
-        OnUnitActiveSec="${at}";
+        OnCalendar="${at}";
         Unit = "rsnapshot${interval}.service";
         Persistent = "true";
       };
@@ -25,10 +26,10 @@ let
     };
   };
 in
-utils.addDeep (rsnapshotService "1h" "hourly")
-(utils.addDeep (rsnapshotService "1d" "daily")
- (utils.addDeep (rsnapshotService "1w" "weekly")
-  (utils.addDeep (rsnapshotService "1M" "monthly")
+utils.addDeep (rsnapshotService "*-*-* *:00:00" "hourly")
+(utils.addDeep (rsnapshotService "*-*-* 12:00:00" "daily")
+ (utils.addDeep (rsnapshotService "Sun *-*-* 15:00:00" "weekly")
+  (utils.addDeep (rsnapshotService "*-*-1 18:00:00" "monthly")
 {
   imports =
     [ # Include the results of the hardware scan.
