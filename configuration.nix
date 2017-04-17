@@ -29,7 +29,7 @@ in
 utils.addDeep (rsnapshotService "*-*-* *:00:00" "hourly")
 (utils.addDeep (rsnapshotService "*-*-* 12:00:00" "daily")
  (utils.addDeep (rsnapshotService "Sun *-*-* 15:00:00" "weekly")
-  (utils.addDeep (rsnapshotService "*-*-1 18:00:00" "monthly")
+  (utils.addDeep (rsnapshotService "*-*-01 18:00:00" "monthly")
 {
   imports =
     [ # Include the results of the hardware scan.
