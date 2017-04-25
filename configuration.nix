@@ -26,10 +26,10 @@ let
     };
   };
 in
-utils.addDeep (rsnapshotService "*-*-* *:00:00" "hourly")
-(utils.addDeep (rsnapshotService "*-*-* 12:00:00" "daily")
- (utils.addDeep (rsnapshotService "Sun *-*-* 15:00:00" "weekly")
-  (utils.addDeep (rsnapshotService "*-*-01 18:00:00" "monthly")
+utils.addDeep (rsnapshotService "hourly" "hourly")
+(utils.addDeep (rsnapshotService "daily" "daily")
+ (utils.addDeep (rsnapshotService "weekly" "weekly")
+  (utils.addDeep (rsnapshotService "monthly" "monthly")
 {
   imports =
     [ # Include the results of the hardware scan.
@@ -241,4 +241,5 @@ utils.addDeep (rsnapshotService "*-*-* *:00:00" "hourly")
         };
       };
   };
-})))
+}
+)))
