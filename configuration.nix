@@ -155,34 +155,6 @@ utils.addDeep (rsnapshotService "hourly" "hourly")
     '';
   };
 
-  services.openvpn.servers = {
-    privateinternetaccess = {
-      config = ''
-        client
-        dev tun
-        proto tcp
-        resolv-retry infinite
-        nobind
-        remote nl.privateinternetaccess.com 443
-        persist-tun
-        tls-client
-        remote-cert-tls server
-        auth-user-pass /root/.vpn/pia.txt
-        comp-lzo
-        verb 1
-        reneg-sec 0
-        ca /root/.vpn/ca.crt
-        crl-verify /root/.vpn/crl.pem
-        route momentoftop.com 255.255.255.255 gateway
-     '';
-    };
-    # Alternative servers
-    # remote germany.privateinternetaccess.com 443
-    # remote uk-london.privateinternetaccess.com 443
-    # remote us-newyorkcity.privateinternetaccess.com 443
-    # remote nl.privateinternetaccess.com 443
-  };
-
   users.extraUsers.phil = {
     home = "/home/phil";
     isNormalUser = true;
