@@ -126,7 +126,8 @@ utils.addDeep (rsnapshotService "hourly" "hourly")
 
   services.xserver = {
     enable = true;
-    layout = "dvorak";
+    layout = "us";
+    xkbVariant = "dvorak";
     displayManager.auto.enable = true;
     displayManager.auto.user = "phil";
     windowManager.default = "xmonad";
