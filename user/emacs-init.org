@@ -146,7 +146,9 @@ Common Lisp compatibility for emacs lisp.
      '("auto-confirm@amazon.co.uk"
        "noreply@bandcamp.com"
        "justeat@order.just-eat.co.uk"
-       "digital-no-reply@amazon.co.uk")
+       "digital-no-reply@amazon.co.uk"
+       "verify@twitter.com"
+       "notify@twitter.com")
      " OR "))
 
   (setf mu4e-bookmarks
