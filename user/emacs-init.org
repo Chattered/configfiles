@@ -94,7 +94,7 @@ Common Lisp compatibility for emacs lisp.
 
   (mapc #'(lambda (var)
                     (set (car var) (cadr var)))
-        (cdr (assoc "Personal" mu4e-account-alist)))
+        (cdr (assoc "Kolab" mu4e-account-alist)))
 
   (defun mu4e-set-account ()
     "Set the account for composing a message."
