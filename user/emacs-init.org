@@ -163,21 +163,21 @@ Common Lisp compatibility for emacs lisp.
                :key 117)
               (make-mu4e-bookmark
                :name "Today's messages"
-               :query (concat "date:today..now AND NOT "
+               :query (concat "flag:flagged OR (date:today..now AND NOT "
                               (concat
                                "(" philed-mu4e-mailing-lists
                                " OR "
                                philed-mu4e-notifications)
-                              ")")
+                              "))")
                :key 116)
               (make-mu4e-bookmark
                :name "Last 7 days"
-               :query (concat "date:7d..now AND NOT "
+               :query (concat "flag:flagged OR (date:7d..now AND NOT "
                               (concat
                                "(" philed-mu4e-mailing-lists
                                " OR "
                                philed-mu4e-notifications)
-                              ")")
+                              "))")
                :key 119)
               (make-mu4e-bookmark
                :name "Mailing lists"
