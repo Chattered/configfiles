@@ -137,24 +137,7 @@ Common Lisp compatibility for emacs lisp.
   (defvar philed-mu4e-mailing-lists
     (mapconcat
      (lambda (x) (concat "list:" x))
-     '("inf-general.inf.ed.ac.uk"
-       "if-people.inf.ed.ac.uk"
-       "research-staff@inf.ed.ac.uk"
-       "cisa-members.inf.ed.ac.uk"
-       "cisa-staff.inf.ed.ac.uk"
-       "hol-info.lists.sourceforge.net"
-       "seminars.inf.ed.ac.uk"
-       "lfcs-interest@inf.ed.ac.uk"
-       "edindreamers.inf.ed.ac.uk"
-       "libraries.haskell.org"
-       "hol-info.lists.sourceforge.net"
-       "proofpeer-dev@googlegroups.com"
-       "security-privacy.inf.ed.ac.uk"
-       "iad_researcher_development.mlist.is.ed.ac.uk"
-       "pdra-staff.inf.ed.ac.uk"
-       "staff.inf.ed.ac.uk"
-       "security-club.inf.ed.ac.uk"
-       "caml-list.inria.fr")
+     '("libraries.haskell.org")
      " OR "))
 
   (defvar philed-mu4e-notifications
