@@ -10,8 +10,6 @@ let
         Restart = "on-failure";
         RestartSec = "10m";
       };
-      after = [ "default.target" ];
-      wantedBy = [ "default.target" ];
       enable = true;
     };
     systemd.timers."rsnapshot${interval}" = {
