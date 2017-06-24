@@ -18,14 +18,6 @@ in rec {
         pkgs.ocaml-ng.mkOcamlPackages ocaml
           (self: super: pkgs.lib.mapAttrs (n: v: pkgs.newScope self v {})
                                           userPackages.ocamlPackages);
-      torbrowser = pkgs.torbrowser.overrideDerivation (super: rec {
-        version = "6.0.8";
-        src = pkgs.fetchurl {
-         url = "https://archive.torproject.org/tor-package-archive/torbrowser/${version}/tor-browser-linux${if pkgs.stdenv.is64bit then "64" else "32"}-${version}_en-US.tar.xz";
-         sha256 = if pkgs.stdenv.is64bit then
-           "1s2yv72kj4zxba0850fi1jv41c69vcw3inhj9kqhy1d45ql7iw0w" else
-           "0zvqf444h35ikv1f3nwkh2jx51zj5k9w4zdxx32zcrnxpk5nhn97";
-        };
       });
       emacs25 = pkgs.emacs25.override {
         withGTK2 = false;
