@@ -1,6 +1,7 @@
 { pkgs }:
 let userPackages = import <userpackages>;
 in rec {
+  allowUnfree = true;
   haskellPackageOverrides = self: super:
     pkgs.lib.mapAttrs (n: v: self.callPackage v {}) userPackages.haskellPackages // {
      pipes-binary = pkgs.haskell.lib.dontCheck super.pipes-binary;
