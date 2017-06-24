@@ -18,6 +18,13 @@ in rec {
         pkgs.ocaml-ng.mkOcamlPackages ocaml
           (self: super: pkgs.lib.mapAttrs (n: v: pkgs.newScope self v {})
                                           userPackages.ocamlPackages);
+      haskellPackagesProfiled = pkgs.haskellPackages.override (_: {
+        overrides = self: super:
+          haskellPackageOverrides self super //
+          {
+            mkDerivation = (expr:
+              super.mkDerivation (expr // { enableLibraryProfiling = true; }));
+          };
       });
       emacs25 = pkgs.emacs25.override {
         withGTK2 = false;
