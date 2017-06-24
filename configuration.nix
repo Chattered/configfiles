@@ -70,8 +70,8 @@ utils.addDeep (rsnapshotService "hourly" "hourly")
 
   environment.systemPackages = with pkgs; [ wget (emacs.override {
     withGTK2 = false; withGTK3 = false;})
-  aspell aspellDicts.en git gnupg haskellPackages.xmobar lsof offlineimap
-  pinentry xlockmore xclip ];
+  aspell aspellDicts.en cpufrequtils git gnupg haskellPackages.xmobar iotop lsof
+  offlineimap pinentry xlockmore xclip ];
 
   krb5 = {
     enable = true;
