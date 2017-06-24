@@ -4,7 +4,10 @@ in rec {
   allowUnfree = true;
   haskellPackageOverrides = self: super:
     pkgs.lib.mapAttrs (n: v: self.callPackage v {}) userPackages.haskellPackages // {
-     pipes-binary = pkgs.haskell.lib.dontCheck super.pipes-binary;
+     ghc-syb-utils = pkgs.haskell.lib.overrideCabal super.ghc-syb-utils {
+       version = "0.2.3";
+       sha256 = "0rxwdivpcppwzbqglbrz8rm9f4g1gmba9ij7p7aj3di9x37kzxky";
+     };
   };
 
   packageOverrides = pkgs:
