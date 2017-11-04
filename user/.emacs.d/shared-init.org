@@ -20,7 +20,7 @@ adds a simple [[https://www.gnu.org/software/emacs/manual/html_node/emacs/Hooks.
 
 * Helper functions and macros
   #+BEGIN_SRC emacs-lisp
-    (defun count-iterations (fcondition action)
+    (defun philed-count-iterations (fcondition action)
       "Call the CONDITION function and, if it returns non-nil, call
     ACTION with no arguments. Repeat until ACTION returns nil. Return
     the number of times ACTION is called."
@@ -29,6 +29,23 @@ adds a simple [[https://www.gnu.org/software/emacs/manual/html_node/emacs/Hooks.
                (funcall action)
                (setq x (+ x 1)))
         x))
+
+    (defun philed-modified-file-buffers ()
+      (interactive)
+      "Return all modified buffers visiting files."
+      (cl-loop for buf in (buffer-list)
+               if (buffer-modified-p buf)
+               if (buffer-file-name buf)
+               collect buf))
+
+    (defun philed-next-modified-file-buffer ()
+      (interactive)
+      "Open some modified buffer visiting a file."
+      (let ((buffers (modified-file-buffers)))
+        (when buffers
+          (display-buffer (car buffers) 'display-buffer-same-window))))
+
+    (global-set-key (kbd "C-c m") 'next-modified-file-buffer)
   #+END_SRC
 
 * General editor stuff
