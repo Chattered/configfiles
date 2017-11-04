@@ -15,8 +15,11 @@
   (require 'magit)
   (require 'ghc)
   (require 'helm-config)
+  (require 'ace-jump-mode)
   (helm-mode 1)
   (pdf-tools-install)
+  (global-set-key (kbd "C-c SPC") 'ace-jump-mode)
+  (global-undo-tree-mode)
 #+END_SRC
 
 Common Lisp compatibility for emacs lisp.
