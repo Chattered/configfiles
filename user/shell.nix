@@ -5,10 +5,11 @@
      let
        myemacs =
          with pkgs.emacsPackages; with pkgs.emacsPackagesNg; pkgs.emacsWithPackages
-         [ cl-lib helm-projectile magit org paredit pdf-tools w3m
-           ghc-mod haskell-mode haskellMode twittering-mode ];
+         [ ace-jump-mode cl-lib helm-projectile magit org paredit pdf-tools w3m
+           ghc-mod haskell-mode haskellMode twittering-mode undo-tree
+         ];
        myhaskell = pkgs.haskellPackages.ghcWithPackages (p: with p; [
-         turtle ghc-mod QuickCheck
+         cabal-install ghc-mod parallel QuickCheck semigroups turtle xml
        ]);
      in pkgs.stdenv.mkDerivation {
        name = "emacs";
