@@ -15,6 +15,7 @@
        name = "emacs";
        buildInputs = [ myemacs myhaskell pkgs.mu pkgs.offlineimap ];
        shellHook = ''
+         export TZ="Europe/London"
          if [[ ! -e $TMP/emacs$UID/server ]]
          then
            emacs --daemon --eval "(progn\
