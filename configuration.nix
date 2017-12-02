@@ -201,6 +201,7 @@ utils.addDeep (rsnapshotService "hourly" "hourly")
     serviceConfig = {
       ExecStartPre = "${config.system.path}/bin/gpg-connect-agent /bye";
       ExecStart = "${pkgs.offlineimap}/bin/offlineimap";
+      RestartSec = 60;
       Restart = "on-failure";
     };
     after = [ "network-interfaces.target" ];
