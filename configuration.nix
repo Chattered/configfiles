@@ -113,9 +113,9 @@ utils.addDeep (rsnapshotService "hourly" "hourly")
     ensureUsers = [
       {
         name = "phil";
-	ensurePermissions = {
-	  "*.*" = "ALL PRIVILEGES";
-	};
+        ensurePermissions = {
+          "*.*" = "ALL PRIVILEGES";
+        };
       }
     ];
     rootPassword = "foobar";
@@ -209,30 +209,29 @@ utils.addDeep (rsnapshotService "hourly" "hourly")
     enable = true;
   };
 
-  nixpkgs.config =
+  nixpkgs.config = {
+    # Needed by xmonad.extraPackages
+    haskellPackageOverrides = self: super:
     {
-      # Needed by xmonad.extraPackages
-      haskellPackageOverrides = self: super:
-      {
-        "PhilAlsa" = self.mkDerivation {
-          pname = "PhiledAlsa";
-          version = "0.1";
-          src = pkgs.fetchFromGitHub {
-            owner = "Chattered";
-            repo = "PhiledAlsa";
-            rev = "master";
-            sha256 = "0f1kvqid2vp22v10n2jl18c5qrrl2wza1rc11avs6gnvkwzmw07x";
-          };
-          isLibrary = true;
-          isExecutable = false;
-          buildDepends = (with super; [ mtl ]);
-          extraLibraries = [ pkgs.alsaLib ];
-          jailbreak = true;
-          description = "A simple interface to ALSA's API";
-          license = pkgs.stdenv.lib.licenses.mit;
-          hydraPlatforms = pkgs.stdenv.lib.platforms.none;
+      "PhilAlsa" = self.mkDerivation {
+        pname = "PhiledAlsa";
+        version = "0.1";
+        src = pkgs.fetchFromGitHub {
+          owner = "Chattered";
+          repo = "PhiledAlsa";
+          rev = "master";
+          sha256 = "0f1kvqid2vp22v10n2jl18c5qrrl2wza1rc11avs6gnvkwzmw07x";
         };
+        isLibrary = true;
+        isExecutable = false;
+        buildDepends = (with super; [ mtl ]);
+        extraLibraries = [ pkgs.alsaLib ];
+        jailbreak = true;
+        description = "A simple interface to ALSA's API";
+        license = pkgs.stdenv.lib.licenses.mit;
+        hydraPlatforms = pkgs.stdenv.lib.platforms.none;
       };
+    };
   };
 }
 )))
