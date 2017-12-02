@@ -21,7 +21,7 @@
        buildInputs = [ myemacs myhaskell tex pkgs.graphviz
                        pkgs.mp3info pkgs.mplayer pkgs.mu
                        pkgs.offlineimap pkgs.pythonPackages.pygments
-                       pkgs.vorbis-tools pkgs.youtube-dl ];
+                       pkgs.unzip pkgs.vorbis-tools pkgs.youtube-dl ];
        shellHook = ''
          export TZ="Europe/London"
          if [[ ! -e $TMP/emacs$UID/server ]]
