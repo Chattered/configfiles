@@ -188,16 +188,6 @@ utils.addDeep (rsnapshotService "hourly" "hourly")
     extraGroups = [ "video" "vboxusers" ];
     uid = 1000;
   };
-  users.extraUsers.ipfs = {
-    home = "/home/ipfs";
-    isNormalUser = true;
-    uid = 1001;
-  };
-  users.extraUsers.alyn = {
-    home = "/home/alyn";
-    isNormalUser = true;
-    uid = 1002;
-  };
 
   system.autoUpgrade.enable = true;
 
