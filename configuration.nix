@@ -97,12 +97,6 @@ utils.addDeep (rsnapshotService "hourly" "hourly")
   aspell aspellDicts.en cpufrequtils git gnupg haskellPackages.xmobar iotop lsof
   offlineimap pinentry xlockmore xclip ];
 
-  krb5 = {
-    enable = true;
-    defaultRealm = "INF.ED.AC.UK";
-    kdc = "kdc.inf.ed.ac.uk";
-  };
-
 
   # Using GPG_AGENT
   programs.ssh.startAgent = false;
