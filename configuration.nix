@@ -105,6 +105,22 @@ utils.addDeep (rsnapshotService "hourly" "hourly")
   services.locate.interval = "hourly";
   services.locate.localuser = "phil";
 
+  services.mysql = {
+    enable = true;
+    bind = "127.0.0.1";
+    user = "phil";
+    package = pkgs.mysql;
+    ensureUsers = [
+      {
+        name = "phil";
+	ensurePermissions = {
+	  "*.*" = "ALL PRIVILEGES";
+	};
+      }
+    ];
+    rootPassword = "foobar";
+  };
+
   services.nfs.server = {
     enable = true;
     exports = ''
