@@ -32,24 +32,18 @@ utils.addDeep (rsnapshotService "hourly" "hourly")
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
+      ./local.nix
     ];
 
-  boot.initrd.postMountCommands =
-    "cryptsetup luksOpen --key-file /mnt-root/root/swapkeyfile /dev/disk/by-id/wwn-0x5000cca768cffc54-part3 swap";
   swapDevices = [ { device = "/dev/mapper/swap"; } ];
 
-  boot.loader.grub.device = /dev/disk/by-label/NIXOSBOOT;
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
-
-  nix.buildCores = 4;
 
   time.timeZone = "Europe/London";
 
   hardware.pulseaudio.enable = true;
 
-  networking.hostName = "hyland";
-  networking.hostId = "48a32733";
   networking.wireless.enable = true;
   networking.firewall.trustedInterfaces = [ "tun0" ];
 
