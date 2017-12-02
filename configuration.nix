@@ -71,6 +71,7 @@ utils.addDeep (rsnapshotService "hourly" "hourly")
         crl-verify /root/.vpn/crl.pem
         route momentoftop.com 255.255.255.255 gateway
         route smtp.kolabnow.com 255.255.255.255 gateway
+        route smtp.office365.com 255.255.255.255 gateway
      '';
     };
     # Alternative servers
