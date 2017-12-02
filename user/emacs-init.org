@@ -137,21 +137,23 @@ Common Lisp compatibility for emacs lisp.
 ** Set up bookmarks:
 
 #+BEGIN_SRC emacs-lisp
+  ;; private
+  (defvar philed-blocked nil)
+
   (defvar philed-mu4e-mailing-lists
     (mapconcat
      (lambda (x) (concat "list:" x))
      '("libraries.haskell.org")
      " OR "))
 
+  (defvar philed-mu4e-jira "from:Jira AND subject:JIRA")
+
   (defvar philed-mu4e-notifications
     (mapconcat
      (lambda (x) (concat "from:" x))
      '("auto-confirm@amazon.co.uk"
        "noreply@bandcamp.com"
-       "justeat@order.just-eat.co.uk"
-       "digital-no-reply@amazon.co.uk"
-       "verify@twitter.com"
-       "notify@twitter.com")
+       "digital-no-reply@amazon.co.uk")
      " OR "))
 
   (setf mu4e-bookmarks
@@ -161,7 +163,12 @@ Common Lisp compatibility for emacs lisp.
                               (concat
                                "(" philed-mu4e-mailing-lists
                                " OR "
-                               philed-mu4e-notifications)
+                               philed-mu4e-notifications
+                               " OR "
+                               philed-mu4e-jira
+                               (if philed-blocked
+                                   (concat " OR " philed-blocked)
+                                 ""))
                               ")")
                :key 117)
               (make-mu4e-bookmark
@@ -170,7 +177,12 @@ Common Lisp compatibility for emacs lisp.
                               (concat
                                "(" philed-mu4e-mailing-lists
                                " OR "
-                               philed-mu4e-notifications)
+                               philed-mu4e-notifications
+                               " OR "
+                               philed-mu4e-jira
+                               (if philed-blocked
+                                   (concat " OR " philed-blocked)
+                                 ""))
                               "))")
                :key 116)
               (make-mu4e-bookmark
@@ -179,9 +191,18 @@ Common Lisp compatibility for emacs lisp.
                               (concat
                                "(" philed-mu4e-mailing-lists
                                " OR "
-                               philed-mu4e-notifications)
+                               philed-mu4e-notifications
+                               " OR "
+                               philed-mu4e-jira
+                               (if philed-blocked
+                                   (concat " OR " philed-blocked)
+                                 ""))
                               "))")
                :key 119)
+              (make-mu4e-bookmark
+               :name "JIRA"
+               :query philed-mu4e-jira
+               :key 115)
               (make-mu4e-bookmark
                :name "Mailing lists"
                :query philed-mu4e-mailing-lists
@@ -189,5 +210,6 @@ Common Lisp compatibility for emacs lisp.
               (make-mu4e-bookmark
                :name "Notifications"
                :query philed-mu4e-notifications
-               :key 110)))
+               :key 110)
+              ))
 #+END_SRC
