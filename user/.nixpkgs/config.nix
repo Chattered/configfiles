@@ -1,7 +1,6 @@
 { pkgs }:
 let userPackages = import <userpackages>;
 in rec {
-  allowUnfree = true;
   haskellPackageOverrides = self: super:
     pkgs.lib.mapAttrs (n: v: self.callPackage v {}) userPackages.haskellPackages // {
      ghc-syb-utils = pkgs.haskell.lib.overrideCabal super.ghc-syb-utils {
