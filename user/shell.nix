@@ -5,15 +5,23 @@
      let
        myemacs =
          with pkgs.emacsPackages; with pkgs.emacsPackagesNg; pkgs.emacsWithPackages
-         [ ace-jump-mode cl-lib helm-projectile magit org paredit pdf-tools w3m
-           ghc-mod haskell-mode haskellMode twittering-mode undo-tree
+         [ ace-jump-mode emms cl-lib helm-projectile magit org paredit
+           pdf-tools w3m ghc-mod graphviz-dot-mode haskell-mode
+           haskellMode twittering-mode undo-tree
          ];
        myhaskell = pkgs.haskellPackages.ghcWithPackages (p: with p; [
-         cabal-install ghc-mod parallel QuickCheck semigroups turtle xml
+         cabal-install ghc-mod network parallel QuickCheck semigroups turtle xml
        ]);
+  tex = pkgs.texlive.combine {
+    inherit (pkgs.texlive)
+      scheme-small beamer wrapfig marvosym wasysym cm-super ifplatform xstring xcolor minted pgfgantt framed;
+  };
      in pkgs.stdenv.mkDerivation {
        name = "emacs";
-       buildInputs = [ myemacs myhaskell pkgs.mu pkgs.offlineimap ];
+       buildInputs = [ myemacs myhaskell tex pkgs.graphviz
+                       pkgs.mp3info pkgs.mplayer pkgs.mu
+                       pkgs.offlineimap pkgs.pythonPackages.pygments
+                       pkgs.vorbis-tools pkgs.youtube-dl ];
        shellHook = ''
          export TZ="Europe/London"
          if [[ ! -e $TMP/emacs$UID/server ]]
