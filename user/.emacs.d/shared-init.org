@@ -41,11 +41,11 @@ adds a simple [[https://www.gnu.org/software/emacs/manual/html_node/emacs/Hooks.
     (defun philed-next-modified-file-buffer ()
       (interactive)
       "Open some modified buffer visiting a file."
-      (let ((buffers (modified-file-buffers)))
+      (let ((buffers (philed-modified-file-buffers)))
         (when buffers
           (display-buffer (car buffers) 'display-buffer-same-window))))
 
-    (global-set-key (kbd "C-c m") 'next-modified-file-buffer)
+    (global-set-key (kbd "C-c m") 'philed-next-modified-file-buffer)
   #+END_SRC
 
 * General editor stuff
