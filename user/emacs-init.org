@@ -156,7 +156,7 @@ Common Lisp compatibility for emacs lisp.
        "digital-no-reply@amazon.co.uk")
      " OR "))
 
-  (setf mu4e-bookmarks
+  (defvar mu4e-bookmarks
         (list (make-mu4e-bookmark
                :name "Unread messages"
                :query (concat "flag:unread AND NOT "
