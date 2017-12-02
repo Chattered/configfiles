@@ -1,5 +1,4 @@
 source $HOME/.bashrc
-export GNUPGHOME=/tails/gnupg
 gpg-connect-agent /bye
 gpgconf --create-socketdir
 export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
