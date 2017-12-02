@@ -199,7 +199,6 @@ utils.addDeep (rsnapshotService "hourly" "hourly")
   systemd.user.services.offlineimap = {
     description = "Offline IMAP";
     serviceConfig = {
-      Environment="GNUPGHOME=/tails/gnupg";
       ExecStartPre = "${config.system.path}/bin/gpg-connect-agent /bye";
       ExecStart = "${pkgs.offlineimap}/bin/offlineimap";
       Restart = "on-failure";
