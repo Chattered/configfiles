@@ -213,3 +213,18 @@ Common Lisp compatibility for emacs lisp.
                :key 110)
               ))
 #+END_SRC
+* Org
+  #+BEGIN_SRC emacs-lisp
+    (defun phil-org-display-inline-images ()
+      (when org-inline-image-overlays
+        (org-redisplay-inline-images)))
+
+    (add-hook 'org-babel-after-execute-hook 'phil-org-display-inline-images)
+  #+END_SRC
+
+* EMMS
+#+BEGIN_SRC emacs-lisp
+  (require 'emms-setup)
+  (emms-all)
+  (emms-default-players)
+#+END_SRC
