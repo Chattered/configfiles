@@ -102,8 +102,6 @@ utils.addDeep (rsnapshotService "hourly" "hourly")
     kdc = "kdc.inf.ed.ac.uk";
   };
 
-  powerManagement.enable = true;
-  powerManagement.cpuFreqGovernor = "ondemand";
 
   # Using GPG_AGENT
   programs.ssh.startAgent = false;
