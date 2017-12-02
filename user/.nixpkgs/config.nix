@@ -30,6 +30,7 @@ in rec {
         withGTK3 = false;
       };
       emacsPackagesNg = pkgs.emacsPackagesNg.overrideScope (super: self: {
+        twittering-mode = pkgs.emacsPackagesNg.melpaPackages.twittering-mode;
         w3m = pkgs.emacsPackagesNg.callPackage
          ({ fetchFromGitHub, fetchurl, lib, melpaBuild }:
           melpaBuild {
