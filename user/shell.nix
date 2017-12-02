@@ -6,11 +6,11 @@
        myemacs =
          with pkgs.emacsPackages; with pkgs.emacsPackagesNg; pkgs.emacsWithPackages
          [ ace-jump-mode emms cl-lib helm-projectile magit org paredit
-           pdf-tools w3m ghc-mod graphviz-dot-mode haskell-mode
-           haskellMode twittering-mode undo-tree
+           pdf-tools w3m graphviz-dot-mode haskell-mode haskellMode
+           twittering-mode undo-tree
          ];
        myhaskell = pkgs.haskellPackages.ghcWithPackages (p: with p; [
-         cabal-install ghc-mod network parallel QuickCheck semigroups turtle xml
+         cabal-install network parallel QuickCheck semigroups turtle xml
        ]);
   tex = pkgs.texlive.combine {
     inherit (pkgs.texlive)
