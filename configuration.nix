@@ -92,10 +92,9 @@ utils.addDeep (rsnapshotService "hourly" "hourly")
     defaultLocale = "en_GB.UTF-8";
   };
 
-  environment.systemPackages = with pkgs; [ wget (emacs.override {
-    withGTK2 = false; withGTK3 = false;})
-    aspell aspellDicts.en git gnupg haskellPackages.xmobar offlineimap pinentry
-    xorg.xmodmap xlockmore
+  environment.systemPackages = with pkgs; [
+    (emacs.override { withGTK2 = false; withGTK3 = false;})
+    xlockmore
   ];
 
   # Using GPG_AGENT
@@ -189,7 +188,9 @@ utils.addDeep (rsnapshotService "hourly" "hourly")
     home = "/home/phil";
     isNormalUser = true;
     extraGroups = [ "video" "vboxusers" ];
-    uid = 1000;
+    packages = with pkgs; [
+      aspell aspellDicts.en git haskellPackages.xmobar offlineimap gnupg
+      pinentry xlockmore xorg.xmodmap ];
   };
 
   system.autoUpgrade.enable = true;
@@ -198,6 +199,7 @@ utils.addDeep (rsnapshotService "hourly" "hourly")
 
   systemd.user.services.offlineimap = {
     description = "Offline IMAP";
+    environment = { GPG = "${pkgs.gnupg}"; };
     serviceConfig = {
       ExecStartPre = "${config.system.path}/bin/gpg-connect-agent /bye";
       ExecStart = "${pkgs.offlineimap}/bin/offlineimap";
