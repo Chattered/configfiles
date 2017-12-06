@@ -6,7 +6,7 @@ let
     systemd.services."rsnapshot${interval}" = {
       description = "rsnapshot ${interval} backup";
       serviceConfig = {
-        ExecStart = "${config.system.path}/bin/rsnapshot ${interval}";
+        ExecStart = "${pkgs.rsnapshot}/bin/rsnapshot ${interval}";
         Restart = "on-failure";
         RestartSec = "10m";
       };
