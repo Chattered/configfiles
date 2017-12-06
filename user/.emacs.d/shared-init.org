@@ -46,6 +46,11 @@ adds a simple [[https://www.gnu.org/software/emacs/manual/html_node/emacs/Hooks.
           (display-buffer (car buffers) 'display-buffer-same-window))))
 
     (global-set-key (kbd "C-c m") 'philed-next-modified-file-buffer)
+
+    (defun philed-shell-to-string (cmd)
+       (with-temp-buffer
+         (shell-command cmd (current-buffer))
+           (buffer-substring (point-min) (line-end-position))))
   #+END_SRC
 
 * General editor stuff
